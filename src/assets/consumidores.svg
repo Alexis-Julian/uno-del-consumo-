@@ -1,0 +1,25 @@
+<svg viewBox="0 0 500 500" width="500" height="500"
+     xmlns="http://www.w3.org/2000/svg">
+
+  <!-- 1. Definimos el camino circular -->
+  <defs>
+    <!-- Círculo de radio 150 px centrado en (250, 250) -->
+    <path id="circlePath"
+          d="M 250,250
+             m -150,0
+             a 150,150 0 1,1 300,0
+             a 150,150 0 1,1 -300,0" />
+  </defs>
+
+  <!-- 2. Texto que se adhiere al camino -->
+  <text fill="#2ecc71"            <!-- color verde -->
+        font-size="32"             <!-- tamaño de fuente -->
+        font-family="Comic Sans MS, cursive"
+        letter-spacing="4"         <!-- separación entre letras -->
+        dominant-baseline="middle">
+    <textPath href="#circlePath"
+              startOffset="0">     <!-- 0 %: comienza a la derecha; 50 %: abajo; etc. -->
+      consumidores • consumidores • consumidores •
+    </textPath>
+  </text>
+</svg>
