@@ -60,16 +60,10 @@ export default function TableroPersonal({
           {/* Simbolo para pasar turno */}
           <li className="z-10 h-[80px] w-[80px]   transition-all cursor-pointer relative">
             <button
-              disabled={
-                !(
-                  useJuego.estado.turno === 0 &&
-                  useJuego.estado.puede_jugar_nuevamente
-                )
-              }
+              disabled={!useJuego.estado.puede_pasar}
               onClick={() => useJuego.jugar(REGLAS_VACIO["pasar_turno"])}
               className={`rounded text-center h-full w-full text-white text-2xl flex items-center justify-center  transition-all ${
-                useJuego.estado.turno === 0 &&
-                useJuego.estado.puede_jugar_nuevamente
+                useJuego.estado.puede_pasar
                   ? "cursor-pointer hover:scale-90"
                   : "cursor-not-allowed hover:scale-100"
               }`}
@@ -82,14 +76,14 @@ export default function TableroPersonal({
             </button>
             <div
               className={`bg-white/2 absolute h-full w-full top-0 z-[-1] rounded-full shadow-inner   ${
-                !useJuego.estado.puede_jugar_nuevamente
+                useJuego.estado.puede_pasar
                   ? "shadow-red-700 "
                   : "shadow-green-700"
               }`}
             >
               <div
                 className={`bg-white/2 h-full w-full  rounded-full  border-8 ${
-                  !useJuego.estado.puede_jugar_nuevamente
+                  !useJuego.estado.puede_pasar
                     ? "border-red-500/40 "
                     : "border-green-500/40"
                 }`}

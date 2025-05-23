@@ -23,9 +23,11 @@ export default class EstadoVacio {
   puede_robar: boolean;
   puede_pasar: boolean;
   puede_jugar_nuevamente: boolean;
+  //
+  ganador: null | Jugador;
 
   constructor() {
-    this.jugadores = [new Jugador("Nestor"), new Jugador("Alexis")];
+    this.jugadores = [new Jugador("PEPE"), new Jugador("CPU")];
     this.baraja = new Baraja();
     this.cartaActual = null;
     this.colorActual = "";
@@ -37,5 +39,6 @@ export default class EstadoVacio {
     this.puede_robar = false;
     this.puede_pasar = false;
     this.puede_jugar_nuevamente = false;
+    this.ganador = null;
   }
 }

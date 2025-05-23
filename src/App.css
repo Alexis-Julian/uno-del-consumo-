@@ -63,3 +63,17 @@
   right: 30px;
   margin: 0 !important;
 }
+
+.texto-cartaAccion {
+  font-weight: bolder; /* Negrita */
+  font-size: 1.2rem; /* Tamaño */
+  color: white; /* Color personalizado */
+  font-style: italic; /* Cursiva opcional */
+  text-align: center; /* Centrado */
+}
+.popup-cartaAccion {
+  background-color: rgba(0, 0, 0, 0.52) !important;
+  color: rgb(255, 255, 255);
+  font-size: 1.4rem;
+  cursor: pointer;
+}

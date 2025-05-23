@@ -26,10 +26,7 @@ export default class RuleVacio implements Rule {
       REGLAS_VACIO["fin_juego"],
       REGLAS_VACIO["fin_ronda"],
       REGLAS_VACIO["iniciar_juego"],
-      REGLAS_VACIO["jugador_inicial"],
-      REGLAS_VACIO["jugador_inicial"],
       REGLAS_VACIO["robar_carta"],
-      REGLAS_VACIO["turno_rotativo"],
       REGLAS_VACIO["pasar_turno"],
       REGLAS_VACIO["validacion"],
       REGLAS_VACIO["jugar_carta"],
@@ -70,7 +67,7 @@ export default class RuleVacio implements Rule {
   hay_ganador(estado: EstadoVacio): boolean {
     const turno_actual = estado.turno;
 
-    return estado.jugadores[turno_actual].cartas.length == 0 ? true : false;
+    return estado.jugadores[turno_actual].cartas.length - 1 == 0 ? true : false;
   }
 
   puede_cantar(estado: EstadoVacio): boolean {

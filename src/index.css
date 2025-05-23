@@ -76,6 +76,10 @@ p {
   animation: borderRadial var(--d) linear infinite forwards;
 }
  */
+
+.gradiente_naranja_negro {
+  background: linear-gradient(to right, #1c1d1d, #a04a2a);
+}
 @keyframes borderRotate {
   100% {
     --angle: 420deg;

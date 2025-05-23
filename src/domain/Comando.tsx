@@ -1,5 +1,5 @@
 import { REGLAS_VACIO } from "../const";
-import { JugarCartaStrategy, type AccionStrategy } from "./AccionStrategy";
+import { type AccionStrategy } from "./AccionStrategy";
 import JuegoVacio from "./Juego";
 export default class AccionComando {
   juego: JuegoVacio;
@@ -24,7 +24,8 @@ export default class AccionComando {
       }
 
       this.juego.reglas.aplicar(this.juego.estado, this.accion);
-
+      /*  console.log(this.juego.estado.puede_pasar, "Puede pasar");
+      console.log(this.juego.estado.puede_robar, "Puede robar"); */
       // Verficiar cantidad de cartas para saber si puede decir VACIO!
       const puede_cantar = this.juego.reglas.puede_cantar(this.juego.estado);
 
@@ -36,8 +37,10 @@ export default class AccionComando {
 
       /* Verificar si hay ganador  */
       const hay_ganador = this.juego.reglas.hay_ganador(this.juego.estado);
-
-      /* if(hay_ganador){} */
+      if (hay_ganador) {
+        this.juego.estado.ganador =
+          this.juego.estado.jugadores[this.juego.estado.turno];
+      }
 
       if (
         this.accion === REGLAS_VACIO["pasar_turno"] &&

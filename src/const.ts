@@ -46,8 +46,6 @@ export type NombreRegla =
   | "fin_juego"
   | "fin_ronda"
   | "iniciar_juego"
-  | "jugador_inicial"
-  | "turno_rotativo"
   | "jugar_carta"
   | "pasar_turno";
 
@@ -64,11 +62,11 @@ export const REGLAS_VACIO: Record<NombreRegla, AccionStrategy> = {
   validacion_micro: new RoboDosVeces(),
   robar_carta: new RobarCartaStrategy(),
   pasar_turno: new PasarTurnoStrategy(),
+  fin_juego: new FinDeJuegoStrategy(),
+  fin_ronda: new FinDeRondaStrategy(),
+  iniciar_juego: new IniciarJuegoStrategy(),
 
   // Strategy de macro-game
   jugar_carta: new JugarCartaStrategy(),
   validacion: new AcumulacionStrategy(),
-  fin_juego: new FinDeJuegoStrategy(),
-  fin_ronda: new FinDeRondaStrategy(),
-  iniciar_juego: new IniciarJuegoStrategy(),
 };

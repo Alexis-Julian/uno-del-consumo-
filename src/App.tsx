@@ -6,34 +6,51 @@ import JuegoVacio from "./domain/Juego";
 import EstadoVacio from "./domain/Estado";
 import ReglasVacio from "./domain/Regla";
 import { REGLAS_VACIO } from "./const";
-import vacioPng from "../src/assets/Vacio.png";
+//import vacioPng from "../src/assets/Vacio.png";
 import logoPng from "../src/assets/logo.png";
+/* import imagePerdedora from "../src/assets/imagen_perdedora.png"; */
 import Mesa from "./components/Mesa";
 import TableroPersonal from "./components/TableroPersonal";
 import { motion, AnimatePresence } from "framer-motion";
 import jugarTurnoRobot from "./robot";
-
-import LogoVacio from "./components/LogoVacio";
+/* import AlertaJuego from "./libraries/swal"; */
+//import LogoVacio from "./components/LogoVacio";
 const esperar = (ms: number) => new Promise((res) => setTimeout(res, ms));
 function App() {
   const [useEstado, setEstado] = useState<EstadoVacio>(new EstadoVacio());
-  const [useJuego, setJuego] = useState<JuegoVacio>(
+  const [useJuego] = useState<JuegoVacio>(
     new JuegoVacio(new ReglasVacio(), useEstado, setEstado)
   );
-  const [PresentacionActiva, setPresentacionActiva] = useState(true);
+  // const [PresentacionActiva, setPresentacionActiva] = useState(true);
   const [useCloseLogo, setCloseLogo] = useState(false);
+
+  // Estado que muestra el cartel ganador
+  const [useMostrarCartel, setMostrarCartel] = useState(false);
+
+  /* Efecto para darla interactividad a la IA */
   useEffect(() => {
     const ejecutarTurno = async () => {
       await jugarTurnoRobot({ useJuego });
     };
 
-    ejecutarTurno();
+    if (!useJuego.estado.ganador) {
+      ejecutarTurno();
+    }
   }, [useJuego.estado.turno]);
 
+  /* Efecto para iniciar una partida  */
   useEffect(() => {
     useJuego.jugar(REGLAS_VACIO["iniciar_juego"]);
     useJuego.jugar(REGLAS_VACIO["jugar_carta"]);
   }, [useJuego]);
+
+  useEffect(() => {
+    if (useJuego.estado.ganador && !useMostrarCartel) {
+      setMostrarCartel(true);
+      console.log("Ganador detectado:", useJuego.estado.ganador.nombre);
+      console.log(useMostrarCartel);
+    }
+  });
 
   async function handleMostrarVacio() {
     const nuevo_bool = !useCloseLogo;
@@ -43,20 +60,6 @@ function App() {
     const segundo_bool = !nuevo_bool;
     setCloseLogo(segundo_bool);
   }
-  /* const ver_todas_las_cartas = () => {
-    return useJuego.estado.baraja.cards.map((e, index) => {
-      if (esCartaComun(e)) {
-        return (
-          <CartaComun
-            numero={e.numero}
-            sentimiento={e.sentimiento}
-            mensaje={e.mensaje}
-            index={index}
-          />
-        );
-      }
-    });
-  }; */
 
   const [useOpenTable, setOpenTable] = useState(false);
 
@@ -81,6 +84,39 @@ function App() {
         )}
       </AnimatePresence>
  */}
+
+      {/* Pantallaso final cuando hay algun ganador */}
+      <AnimatePresence>
+        {useMostrarCartel &&
+          useJuego.estado.ganador &&
+          useJuego.estado.ganador.nombre != "CPU" && (
+            <motion.div
+              key="ganador"
+              className="h-full w-full absolute  z-50 bg-[url('/src/assets/bg_asfalto.png')] bg-[#e5cb98]"
+              initial={{ opacity: 0, y: -1000 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, y: 1000 }}
+            >
+              <div className="h-full w-full bg-[url('/src/assets/imagen_perdedora.png')] bg-contain bg-no-repeat"></div>
+            </motion.div>
+          )}
+
+        {useMostrarCartel &&
+          useJuego.estado.ganador &&
+          useJuego.estado.ganador.nombre === "CPU" && (
+            <motion.div
+              key="ganador"
+              className="h-full w-full    gradiente_naranja_negro absolute  z-50   grid grid-cols-2 "
+              initial={{ opacity: 0, y: -1000 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 1000 }}
+            >
+              <div className="h-full w-full bg-[url('/src/assets/bg_asfalto.png')] bg-center  absolute "></div>
+              <div className="h-full w-full bg-[url('/src/assets/imagen_ganadora.png')] bg-left bg-contain bg-no-repeat"></div>
+              <div className="h-full w-full bg-[url('/src/assets/imagen_ganadora2.png')] bg-right bg-contain bg-no-repeat"></div>
+            </motion.div>
+          )}
+      </AnimatePresence>
       {/* Presentacion del logo vacio cuando un jugador canta */}
       {
         <AnimatePresence>

@@ -1,5 +1,6 @@
 import { reproducirSonido } from "../helpers";
 import notyf from "../libraries/notyf";
+import AlertaJuego from "../libraries/swal";
 import type EstadoVacio from "./Estado";
 // ESTRETEGIAS DEL MICRO-JUEGO
 
@@ -64,21 +65,21 @@ export class JugarCartaStrategy implements AccionStrategy {
           "color" in cartaEnJuego &&
           carta.color === cartaEnJuego.color
         ) {
-          reproducirSonido("/card.mp3");
+          reproducirSonido("/uno-del-consumo/card.mp3");
           cartaValida = true;
         } else if (
           "numero" in carta &&
           "numero" in cartaEnJuego &&
           carta.numero === cartaEnJuego.numero
         ) {
-          reproducirSonido("/card.mp3");
+          reproducirSonido("/uno-del-consumo/card.mp3");
           cartaValida = true;
         } else if (
           "sentimiento" in carta &&
           "sentimiento" in cartaEnJuego &&
           carta.sentimiento === cartaEnJuego.sentimiento
         ) {
-          reproducirSonido("/card.mp3");
+          reproducirSonido("/uno-del-consumo/card.mp3");
           cartaValida = true;
         }
         break;
@@ -124,6 +125,9 @@ export class JugarCartaStrategy implements AccionStrategy {
     /* CUANDO LO QUE JUEGA ES UNA CARA DE ACCION */
     if ("accion" in carta) {
       estado = carta.accion.ejecutarAccion(estado);
+      if ("mensaje" in carta && estado.turno == 1) {
+        AlertaJuego.cartaAccion(carta.mensaje);
+      }
       return estado;
     }
     /* CUANDO LO QUE JUEGA ES UNA CARTA COMUN */
@@ -254,7 +258,7 @@ export class IniciarJuegoStrategy implements AccionStrategy {
     }
 
     for (let i = 0; i < estado.jugadores.length; i++) {
-      for (let j = 0; j < 1; j++) {
+      for (let j = 0; j < 7; j++) {
         estado.jugadores[i].cartas.push(estado.baraja.obtener_carta());
       }
     }

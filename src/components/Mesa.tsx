@@ -11,12 +11,17 @@ export default function Mesa({ useJugador }: TableroProp) {
     return (
       <div className="h-[294px] w-[194px] cursor-pointer relative border ">
         <button
+          disabled={!useJugador.estado.puede_robar}
           onClick={
             useJugador.estado.turno == 0
               ? () => useJugador.jugar(REGLAS_VACIO["robar_carta"])
               : undefined
           }
-          className="h-full w-full rounded-lg shadow-black shadow-sm    z-50  "
+          className={`h-full w-full rounded-lg shadow-black shadow-sm    z-50  ${
+            !useJugador.estado.puede_robar
+              ? "cursor-not-allowed"
+              : "cursor-pointer"
+          }`}
         >
           <img
             src={parteTraseraCarta}
