@@ -1,11 +1,11 @@
-import type JuegoVacio from "../domain/Juego";
-import ManoJugador from "./ManoJugador";
-import heartSvg from "../assets/heart.svg";
-import eye_open from "../assets/eye_open.svg";
-import eye_close from "../assets/eye_close.svg";
-import card_heart from "../assets/card_heart.svg";
-import logo_icon from "../assets/logo.png";
-import { REGLAS_VACIO } from "../const";
+import type JuegoVacio from "../../domain/Juego";
+import ListCard from "../../components/ListCard/ListCard";
+import heartSvg from "../../assets/heart.svg";
+import eye_open from "../../assets/eye_open.svg";
+import eye_close from "../../assets/eye_close.svg";
+import card_heart from "../../assets/card_heart.svg";
+import logo_icon from "../../assets/logo.png";
+import { REGLAS_VACIO } from "../../const";
 
 type Callback = () => void;
 
@@ -16,7 +16,7 @@ interface ManoJugadorProps {
   handleMostrarVacio: Callback;
 }
 
-export default function TableroPersonal({
+export default function PlayerArea({
   useJuego,
   id,
   handleOpenTable,
@@ -34,6 +34,27 @@ export default function TableroPersonal({
     </ul>;
   }; */
 
+  /*   const cartas = useJuego.estado.jugadores[id].cartas; */
+
+  const cardAction = (index?: number) => {
+    if (!index) return;
+
+    useJuego.estado.jugadores[useJuego.estado.turno].seleccion_carta(index);
+    useJuego.jugar(REGLAS_VACIO["jugar_carta"]);
+  };
+
+  /* const jugar_carta = (index?: number) => {
+      if (!index) return;
+  
+      useJuego.estado.jugadores[useJuego.estado.turno].seleccion_carta(index);
+      useJuego.jugar(REGLAS_VACIO["jugar_carta"]);
+    };
+   */
+  /* ${
+          useJuego.estado.turno == 0 && "box "
+        } */
+
+  console.log(useJuego.estado.turno, "TURNO DEEE");
   const NavMenuYo = () => {
     /* console.log(
       useJuego.estado.turno == 0 && useJuego.estado.puede_jugar_nuevamente
@@ -60,7 +81,9 @@ export default function TableroPersonal({
           {/* Simbolo para pasar turno */}
           <li className="z-10 h-[80px] w-[80px]   transition-all cursor-pointer relative">
             <button
-              disabled={!useJuego.estado.puede_pasar}
+              disabled={
+                useJuego.estado.turno !== 0 || !useJuego.estado.puede_pasar
+              }
               onClick={() => useJuego.jugar(REGLAS_VACIO["pasar_turno"])}
               className={`rounded text-center h-full w-full text-white text-2xl flex items-center justify-center  transition-all ${
                 useJuego.estado.puede_pasar
@@ -83,7 +106,7 @@ export default function TableroPersonal({
             >
               <div
                 className={`bg-white/2 h-full w-full  rounded-full  border-8 ${
-                  !useJuego.estado.puede_pasar
+                  useJuego.estado.turno !== 0 || !useJuego.estado.puede_pasar
                     ? "border-red-500/40 "
                     : "border-green-500/40"
                 }`}
@@ -154,7 +177,10 @@ export default function TableroPersonal({
           <NavMenuRobot />
         )}
 
-        <ManoJugador useJuego={useJuego} id={id} />
+        <ListCard
+          cards={useJuego.estado.jugadores[0].cartas}
+          onCardaction={cardAction}
+        />
 
         <div className="h-full w-full absolute  bg-[url('/src/assets/bg_grietas.png')] bg-center   opacity-20"></div>
         <img

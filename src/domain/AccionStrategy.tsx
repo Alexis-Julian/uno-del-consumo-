@@ -26,7 +26,8 @@ export class RobarCartaStrategy implements AccionStrategy {
     // Si el mazo no devuelve mas cartas usar una strategy para volver a barajar con las cartas
     if (!carta) {
       console.log("Mazo totalmente usado");
-      return estado;
+      estado.baraja.reinsertar_carta(estado.cartas_usadas);
+      return this.ejecutarAccion(estado);
     }
 
     // Agregamos una carta al jugador que estaba en turno activo
@@ -121,6 +122,7 @@ export class JugarCartaStrategy implements AccionStrategy {
     // Carta que el jugador tiene activa cambiar logica
     jugador.carta_activa = null;
     estado.cartaActual = carta;
+    estado.cartas_usadas.push(carta);
 
     /* CUANDO LO QUE JUEGA ES UNA CARA DE ACCION */
     if ("accion" in carta) {

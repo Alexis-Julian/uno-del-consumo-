@@ -1,12 +1,12 @@
-import type JuegoVacio from "../domain/Juego";
-import RenderizarCarta from "./RenderizarCarta";
-import parteTraseraCarta from "../assets/trasera.png";
-import { REGLAS_VACIO } from "../const";
+import type JuegoVacio from "../../domain/Juego";
+import parteTraseraCarta from "../../assets/trasera.png";
+import { REGLAS_VACIO } from "../../const";
+import Card from "../../components/Card/Card";
 interface TableroProp {
   useJugador: JuegoVacio;
 }
 
-export default function Mesa({ useJugador }: TableroProp) {
+export default function GameTable({ useJugador }: TableroProp) {
   const MazoDeCarta = () => {
     return (
       <div className="h-[294px] w-[194px] cursor-pointer relative border ">
@@ -38,9 +38,17 @@ export default function Mesa({ useJugador }: TableroProp) {
       </div>
     );
   };
-  const UltimaCarta = () => {
+  {
+    /* <RenderizarCarta isGame={false} carta={useJugador.estado.cartaActual} /> */
+  }
+
+  const LastCard = () => {
     return (
-      <RenderizarCarta isGame={false} carta={useJugador.estado.cartaActual} />
+      <Card
+        {...(useJugador.estado.cartaActual as React.ComponentProps<
+          typeof Card
+        >)}
+      />
     );
   };
 
@@ -50,9 +58,9 @@ export default function Mesa({ useJugador }: TableroProp) {
         <MazoDeCarta />
       </div>
       <div className="">
-        <UltimaCarta />
+        <LastCard />
       </div>
-      {/* <div className="h-full w-full absolute bg-[url('/src/assets/bg_grietas.png')] bg-center opacity-50"></div> */}
+      {/*   <div className="h-full w-full absolute bg-[url('/src/assets/bg_grietas.png')] bg-center opacity-50"></div> */}
       <div className=" h-[90%] rounded-4xl w-[90%] p-2 border-8 border-gray-50/10 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-50"></div>
     </div>
   );

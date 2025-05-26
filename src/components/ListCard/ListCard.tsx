@@ -1,0 +1,21 @@
+import Card from "../Card/Card";
+import type { ListCardProps } from "./ListCard.types";
+
+export default function ListCard({ cards, onCardaction }: ListCardProps) {
+  return (
+    <ul
+      className={`h-[90%] w-full z-10 flex flex-wrap overflow-scroll relative overflow-x-hidden transition-all`}
+    >
+      {cards.map((e, idx) => {
+        return e ? (
+          <li
+            className={`${onCardaction && "cursor-pointer"}`}
+            onClick={onCardaction ? () => onCardaction(idx) : undefined}
+          >
+            <Card key={idx} {...(e as React.ComponentProps<typeof Card>)} />
+          </li>
+        ) : null;
+      })}
+    </ul>
+  );
+}

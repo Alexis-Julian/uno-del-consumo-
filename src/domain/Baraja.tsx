@@ -285,6 +285,11 @@ export default class Baraja {
     return;
   }
 
+  reinsertar_carta(cartas_usadas: (CartaComun | CartaAccion | CartaComodin)[]) {
+    this.cards = cartas_usadas;
+    this.mezclar_cartas();
+  }
+
   obtener_carta(): CartaComun | CartaAccion | CartaComodin | null {
     for (let i = 0; i < this.cards.length; i++) {
       const carta = this.cards[i];

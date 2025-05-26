@@ -10,6 +10,7 @@ export default class EstadoVacio {
   turno: number;
   //Baraja con la que se esta jugando la partida
   baraja: Baraja;
+  cartas_usadas: CualquierCarta[];
   //Carta actual en mesa
   cartaActual: null | CualquierCarta;
   colorActual: string;
@@ -24,8 +25,10 @@ export default class EstadoVacio {
   puede_pasar: boolean;
   puede_jugar_nuevamente: boolean;
   //
-  ganador: null | Jugador;
 
+  //
+  ganador: null | Jugador;
+  finalizado: boolean;
   constructor() {
     this.jugadores = [new Jugador("PEPE"), new Jugador("CPU")];
     this.baraja = new Baraja();
@@ -40,5 +43,7 @@ export default class EstadoVacio {
     this.puede_pasar = false;
     this.puede_jugar_nuevamente = false;
     this.ganador = null;
+    this.finalizado = false;
+    this.cartas_usadas = [];
   }
 }

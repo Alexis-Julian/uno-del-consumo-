@@ -9,8 +9,8 @@ import { REGLAS_VACIO } from "./const";
 //import vacioPng from "../src/assets/Vacio.png";
 import logoPng from "../src/assets/logo.png";
 /* import imagePerdedora from "../src/assets/imagen_perdedora.png"; */
-import Mesa from "./components/Mesa";
-import TableroPersonal from "./components/TableroPersonal";
+import GameTable from "./features/GameTable/GameTable";
+import PlayerArea from "./features/PlayerArea/PlayerArea";
 import { motion, AnimatePresence } from "framer-motion";
 import jugarTurnoRobot from "./robot";
 /* import AlertaJuego from "./libraries/swal"; */
@@ -25,7 +25,6 @@ function App() {
   const [useCloseLogo, setCloseLogo] = useState(false);
 
   // Estado que muestra el cartel ganador
-  const [useMostrarCartel, setMostrarCartel] = useState(false);
 
   /* Efecto para darla interactividad a la IA */
   useEffect(() => {
@@ -33,24 +32,16 @@ function App() {
       await jugarTurnoRobot({ useJuego });
     };
 
-    if (!useJuego.estado.ganador) {
+    if (!useJuego.estado.finalizado) {
       ejecutarTurno();
     }
-  }, [useJuego.estado.turno]);
+  }, [useJuego, useJuego.estado.turno]);
 
   /* Efecto para iniciar una partida  */
   useEffect(() => {
     useJuego.jugar(REGLAS_VACIO["iniciar_juego"]);
     useJuego.jugar(REGLAS_VACIO["jugar_carta"]);
   }, [useJuego]);
-
-  useEffect(() => {
-    if (useJuego.estado.ganador && !useMostrarCartel) {
-      setMostrarCartel(true);
-      console.log("Ganador detectado:", useJuego.estado.ganador.nombre);
-      console.log(useMostrarCartel);
-    }
-  });
 
   async function handleMostrarVacio() {
     const nuevo_bool = !useCloseLogo;
@@ -87,25 +78,23 @@ function App() {
 
       {/* Pantallaso final cuando hay algun ganador */}
       <AnimatePresence>
-        {useMostrarCartel &&
-          useJuego.estado.ganador &&
-          useJuego.estado.ganador.nombre != "CPU" && (
+        {useJuego.estado.finalizado &&
+          useJuego.estado.ganador?.nombre === "CPU" && (
             <motion.div
               key="ganador"
               className="h-full w-full absolute  z-50 bg-[url('/src/assets/bg_asfalto.png')] bg-[#e5cb98]"
               initial={{ opacity: 0, y: -1000 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0, y: 1000 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -1000 }}
             >
               <div className="h-full w-full bg-[url('/src/assets/imagen_perdedora.png')] bg-contain bg-no-repeat"></div>
             </motion.div>
           )}
-
-        {useMostrarCartel &&
-          useJuego.estado.ganador &&
-          useJuego.estado.ganador.nombre === "CPU" && (
+        )
+        {useJuego.estado.finalizado &&
+          useJuego.estado.ganador?.nombre !== "CPU" && (
             <motion.div
-              key="ganador"
+              key="perdedor"
               className="h-full w-full    gradiente_naranja_negro absolute  z-50   grid grid-cols-2 "
               initial={{ opacity: 0, y: -1000 }}
               animate={{ opacity: 1, y: 0 }}
@@ -141,7 +130,7 @@ function App() {
       <section className="flex h-full w-full relative overflow-hidden">
         <div className="absolute h-full w-full  bg-[url('/src/assets/bg_asfalto.png')] bg-contain bg-center bg-no-repeat "></div>
         <div className="absolute h-full w-full bg-[#c23113]/20  "></div>
-        <TableroPersonal
+        <PlayerArea
           useJuego={useJuego}
           id={0}
           handleOpenTable={handleOpenTable}
@@ -157,7 +146,7 @@ function App() {
               exit={{ opacity: 0, x: -100, scale: 0.8 }}
               transition={{ duration: 0.4, ease: "easeOut" }}
             >
-              <TableroPersonal
+              <PlayerArea
                 useJuego={useJuego}
                 id={1}
                 handleOpenTable={handleOpenTable}
@@ -170,7 +159,7 @@ function App() {
         {/* Seccion donde los jugadores juegan se ven las cartas en mesa las cartas usadas y los jugadores en mesa */}
         <section className="p-8 relative w-[60%] flex flex-col  items-center justify-around  ">
           <aside className="h-[80%] bg-[#8a582b] p-4 w-[100%] z-10 rounded-sm relative overflow-hidden">
-            <Mesa useJugador={useJuego} />
+            <GameTable useJugador={useJuego} />
             <div className="h-full w-full absolute top-0 left-0 bg-[url('/src/assets/bg_grietas.png')] bg-cover bg-no-repeat bg-center  opacity-50"></div>
           </aside>
         </section>

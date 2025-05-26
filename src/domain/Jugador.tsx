@@ -10,7 +10,7 @@ export default class Jugador {
   constructor(nombre: string) {
     this.nombre = nombre;
     this.puntos = 0;
-    this.cartas = [null];
+    this.cartas = [];
     this.carta_activa = null;
     this.canto_vacio = false;
   }
