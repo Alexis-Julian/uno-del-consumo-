@@ -1,13 +1,6 @@
 export type sentimientos = "euforia" | "calma" | "brillo" | "impulso";
 export type colores = "rojo" | "azul" | "amarillo" | "naranja";
 
-export const SENTIMIENTOS_COLORES_VACIO: Record<sentimientos, string> = {
-  euforia: "#ff4f7e",
-  calma: "#4fabff",
-  brillo: "#ffd84f",
-  impulso: "#ff924f",
-};
-
 export const SENTIMIENTOS_COLOR: Record<sentimientos, colores> = {
   euforia: "rojo",
   calma: "azul",

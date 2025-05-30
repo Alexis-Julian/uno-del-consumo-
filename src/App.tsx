@@ -5,7 +5,7 @@ import "./App.css";
 import JuegoVacio from "./domain/Juego";
 import EstadoVacio from "./domain/Estado";
 import ReglasVacio from "./domain/Regla";
-import { REGLAS_VACIO } from "./const";
+import { REGLAS_VACIO } from "./constants/reglas";
 //import vacioPng from "../src/assets/Vacio.png";
 import logoPng from "../src/assets/logo.png";
 /* import imagePerdedora from "../src/assets/imagen_perdedora.png"; */

@@ -1,5 +1,6 @@
 import Card from "../Card/Card";
 import type { ListCardProps } from "./ListCard.types";
+import { motion } from "framer-motion";
 
 export default function ListCard({ cards, onCardaction }: ListCardProps) {
   return (
@@ -8,12 +9,13 @@ export default function ListCard({ cards, onCardaction }: ListCardProps) {
     >
       {cards.map((e, idx) => {
         return e ? (
-          <li
+          <motion.li
+            /* layoutId={} */
             className={`${onCardaction && "cursor-pointer"}`}
             onClick={onCardaction ? () => onCardaction(idx) : undefined}
           >
             <Card key={idx} {...(e as React.ComponentProps<typeof Card>)} />
-          </li>
+          </motion.li>
         ) : null;
       })}
     </ul>

@@ -1,6 +1,6 @@
 import type JuegoVacio from "../../domain/Juego";
 import parteTraseraCarta from "../../assets/trasera.png";
-import { REGLAS_VACIO } from "../../const";
+import { REGLAS_VACIO } from "../../constants/const";
 import Card from "../../components/Card/Card";
 interface TableroProp {
   useJugador: JuegoVacio;

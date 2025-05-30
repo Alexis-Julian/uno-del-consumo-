@@ -5,7 +5,7 @@ import eye_open from "../../assets/eye_open.svg";
 import eye_close from "../../assets/eye_close.svg";
 import card_heart from "../../assets/card_heart.svg";
 import logo_icon from "../../assets/logo.png";
-import { REGLAS_VACIO } from "../../const";
+import { REGLAS_VACIO } from "../../constants/reglas";
 
 type Callback = () => void;
 

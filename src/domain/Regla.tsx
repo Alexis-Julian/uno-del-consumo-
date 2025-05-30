@@ -1,7 +1,7 @@
 import EstadoVacio from "./Estado";
 import type { AccionStrategy } from "./AccionStrategy";
 
-import { REGLAS_VACIO } from "../const";
+import { REGLAS_VACIO } from "../constants/const";
 import Swal from "sweetalert2";
 
 export interface Rule {

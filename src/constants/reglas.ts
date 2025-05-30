@@ -15,14 +15,7 @@ import {
   TerapiaStrategy,
   TurnosRotativosStrategy,
   type AccionStrategy,
-} from "./domain/AccionStrategy";
-
-export const COLORES_SENTIMIENTOS: readonly [string, string][] = [
-  ["ROJO", "EUFORIA"],
-  ["AZUL", "CALMA"],
-  ["AMARILLO", "BRILLO"],
-  ["NARANJA", "IMPULSO"],
-];
+} from "../domain/AccionStrategy";
 
 export type NombreRegla =
   | "carta1"
@@ -50,14 +43,13 @@ export const REGLAS_VACIO: Record<NombreRegla, AccionStrategy> = {
   carta5: new SilencioStrategy(),
   carta6: new TentacionStrategy(),
   carta7: new TerapiaStrategy(),
-  //Strategy de micro-game
+  // Strategy de micro-game
   validacion_micro: new RoboDosVeces(),
   robar_carta: new RobarCartaStrategy(),
   pasar_turno: new PasarTurnoStrategy(),
   fin_juego: new FinDeJuegoStrategy(),
   fin_ronda: new FinDeRondaStrategy(),
   iniciar_juego: new IniciarJuegoStrategy(),
-
   // Strategy de macro-game
   jugar_carta: new JugarCartaStrategy(),
   validacion: new AcumulacionStrategy(),

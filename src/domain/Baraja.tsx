@@ -1,4 +1,10 @@
-import { CartaAccion, CartaComun, CartaComodin } from "./Carta";
+import {
+  CartaAccion,
+  CartaComun,
+  CartaComodin,
+  CommunCard,
+  ActionCard,
+} from "./Carta";
 import {
   TentacionStrategy,
   /* CreditoStrategy, */
@@ -7,8 +13,11 @@ import {
   /* InfluencerStrategy, */
 } from "./AccionStrategy";
 
+import { SENTIMIENTOS_COLOR } from "../components/Card/constants";
+import { COLOR_SENTIMIENTO } from "../components/Card/constants";
+
 export default class Baraja {
-  cards: (CartaComun | CartaAccion | CartaComodin | null)[];
+  cards: (CommunCard | ActionCard | CartaComodin | null)[];
   cartas_usadas: (CartaComun | CartaAccion)[];
 
   constructor() {
@@ -17,33 +26,54 @@ export default class Baraja {
     this.crear_cartas();
     this.mezclar_cartas();
   }
+
+  private createCommunCard() {
+    /*  Array de colores*/
+    const coloresKeys = Object.keys(
+      COLOR_SENTIMIENTO
+    ) as (keyof typeof COLOR_SENTIMIENTO)[];
+
+    /* Array de sentimientos */
+    const sentimientosValues = Object.values(COLOR_SENTIMIENTO);
+
+    /* Array de nuevas cartas */
+    const nuevasCartas: CommunCard[] = [];
+
+    /* Creacion de las cartas  */
+    for (let i = 0; i < 4; i++) {
+      for (let j = 0; j < 9; j++) {
+        nuevasCartas.push(
+          new CommunCard(
+            "¡Lo necesito ya!",
+            "comun",
+            coloresKeys[i],
+            j + 1,
+            sentimientosValues[i]
+          )
+        );
+      }
+    }
+
+    /* Asignacion de las cartas en el array de cartas de la clase */
+    this.cards = [...this.cards, ...nuevasCartas];
+  }
+
+  private createActionCard() {
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 4; j++) {
+        for (let k = 0; k < 2; k++) {
+          /* PROBNADO COSAS */
+        }
+      }
+    }
+  }
+  /* ROJAS | AZUL| AMARILLA | NARANJA */
+  /* TENTACION | REVERSA | SILENCIO | NARANJA */
+  /* 2 | 2 | 2 | 2 */
   crear_cartas() {
-    // Creacion de las sentimentales
-    const cartas_rojas = Array.from(
-      { length: 9 },
-      (_, i) => new CartaComun("EUFORIA", "ROJO", "¡Lo necesito ya!", i + 1)
-    );
-    const cartas_azules = Array.from(
-      { length: 9 },
-      (_, i) =>
-        new CartaComun("CALMA", "AZUL", "!Buscas relax comprando!", i + 1)
-    );
-    const cartas_amarillas = Array.from(
-      { length: 9 },
-      (_, i) =>
-        new CartaComun("BRILLO", "AMARILLA", "¡Ansia de novedad!", i + 1)
-    );
-    const cartas_naranjas = Array.from(
-      { length: 9 },
-      (_, i) =>
-        new CartaComun("IMPULSO", "NARANJA", "¡Auto-Mejora estetica!", i + 1)
-    );
-    this.cards = [
-      ...cartas_rojas,
-      ...cartas_azules,
-      ...cartas_naranjas,
-      ...cartas_amarillas,
-    ];
+    /* Creacion de las cartas comunes */
+    this.createCommunCard();
+    this.createActionCard();
 
     // Creacion de las cartas de accion
     // 8-'Toma dos | Tentacion'

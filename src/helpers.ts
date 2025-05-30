@@ -104,3 +104,5 @@ animate	Cómo debe lucir una vez montado
 exit	Cómo debe desaparecer
 transition	Duración y suavidad
 AnimatePresence	Permite animar cuando el componente se va (unmount) */
+export const uuid = () =>
+  Math.random().toString(36).substring(2, 10) + Date.now();

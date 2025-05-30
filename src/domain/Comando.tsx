@@ -1,4 +1,4 @@
-import { REGLAS_VACIO } from "../const";
+import { REGLAS_VACIO } from "../constants/reglas";
 import { type AccionStrategy } from "./AccionStrategy";
 import JuegoVacio from "./Juego";
 export default class AccionComando {

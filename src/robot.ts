@@ -1,4 +1,4 @@
-import { REGLAS_VACIO } from "./const";
+import { REGLAS_VACIO } from "./constants/const";
 import type { CualquierCarta } from "./domain/Carta";
 import type JuegoVacio from "./domain/Juego";
 import { ValidadorDeCartas } from "./helpers";
