@@ -5,7 +5,7 @@ import eye_open from "../../assets/eye_open.svg";
 import eye_close from "../../assets/eye_close.svg";
 import card_heart from "../../assets/card_heart.svg";
 import logo_icon from "../../assets/logo.png";
-import { REGLAS_VACIO } from "../../constants/reglas";
+import { RULES_VACIO } from "../../constants/reglas";
 
 type Callback = () => void;
 
@@ -40,7 +40,7 @@ export default function PlayerArea({
     if (!index) return;
 
     useJuego.estado.jugadores[useJuego.estado.turno].seleccion_carta(index);
-    useJuego.jugar(REGLAS_VACIO["jugar_carta"]);
+    useJuego.jugar(RULES_VACIO["jugar_carta"]);
   };
 
   /* const jugar_carta = (index?: number) => {
@@ -84,7 +84,7 @@ export default function PlayerArea({
               disabled={
                 useJuego.estado.turno !== 0 || !useJuego.estado.puede_pasar
               }
-              onClick={() => useJuego.jugar(REGLAS_VACIO["pasar_turno"])}
+              onClick={() => useJuego.jugar(RULES_VACIO["pasar_turno"])}
               className={`rounded text-center h-full w-full text-white text-2xl flex items-center justify-center  transition-all ${
                 useJuego.estado.puede_pasar
                   ? "cursor-pointer hover:scale-90"

@@ -1,23 +1,8 @@
-export type sentimientos = "euforia" | "calma" | "brillo" | "impulso";
-export type colores = "rojo" | "azul" | "amarillo" | "naranja";
+import type { feelings } from "../../types/card";
 
-export const SENTIMIENTOS_COLORES_VACIO: Record<sentimientos, string> = {
+export const FEELINGS_COLORS_VACIO: Record<feelings, string> = {
   euforia: "#ff4f7e",
   calma: "#4fabff",
   brillo: "#ffd84f",
   impulso: "#ff924f",
-};
-
-export const SENTIMIENTOS_COLOR: Record<sentimientos, colores> = {
-  euforia: "rojo",
-  calma: "azul",
-  brillo: "amarillo",
-  impulso: "naranja",
-};
-
-export const COLOR_SENTIMIENTO: Record<colores, sentimientos> = {
-  rojo: "euforia",
-  azul: "calma",
-  amarillo: "brillo",
-  naranja: "impulso",
 };

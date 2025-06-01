@@ -1,5 +1,5 @@
-import { REGLAS_VACIO } from "./constants/const";
-import type { CualquierCarta } from "./domain/Carta";
+import { RULES_VACIO } from "./constants/reglas";
+import type { AnyCard } from "./types/card";
 import type JuegoVacio from "./domain/Juego";
 import { ValidadorDeCartas } from "./helpers";
 
@@ -16,7 +16,7 @@ export default async function jugarTurnoRobot({
   // Intentar hasta que no pueda jugar más
   while (useJuego.estado.turno === 1) {
     const cartas = useJuego.estado.jugadores[1].cartas;
-    const cartaValida = cartas.find((carta: CualquierCarta | null) =>
+    const cartaValida = cartas.find((carta: AnyCard | null) =>
       ValidadorDeCartas.esCartaValida(carta, useJuego.estado.cartaActual)
     );
 
@@ -24,7 +24,7 @@ export default async function jugarTurnoRobot({
       await esperar(800);
 
       useJuego.estado.jugadores[1].carta_activa = cartaValida;
-      useJuego.jugar(REGLAS_VACIO["jugar_carta"]);
+      useJuego.jugar(RULES_VACIO["play_card"]);
 
       await esperar(500);
 
@@ -37,21 +37,21 @@ export default async function jugarTurnoRobot({
 
     // Si no tenía carta válida, verifica si puede robar
     const yaRobo = useJuego.estado.acciones_utilizadas.includes(
-      REGLAS_VACIO["robar_carta"]
+      RULES_VACIO["draw_card"]
     );
 
     if (!yaRobo) {
-      useJuego.jugar(REGLAS_VACIO["robar_carta"]);
+      useJuego.jugar(RULES_VACIO["draw_card"]);
       await esperar(1000);
 
       const nuevasCartas = useJuego.estado.jugadores[1].cartas;
-      const cartaNueva = nuevasCartas.find((carta: CualquierCarta | null) =>
+      const cartaNueva = nuevasCartas.find((carta: AnyCard | null) =>
         ValidadorDeCartas.esCartaValida(carta, useJuego.estado.cartaActual)
       );
 
       if (cartaNueva) {
         useJuego.estado.jugadores[1].carta_activa = cartaNueva;
-        useJuego.jugar(REGLAS_VACIO["jugar_carta"]);
+        useJuego.jugar(RULES_VACIO["play_card"]);
 
         await esperar(500);
 
@@ -59,12 +59,12 @@ export default async function jugarTurnoRobot({
         continue;
       } else {
         await esperar(500);
-        useJuego.jugar(REGLAS_VACIO["pasar_turno"]);
+        useJuego.jugar(RULES_VACIO["pass_turn"]);
         break;
       }
     } else {
       await esperar(500);
-      useJuego.jugar(REGLAS_VACIO["pasar_turno"]);
+      useJuego.jugar(RULES_VACIO["pass_turn"]);
       break;
     }
   }

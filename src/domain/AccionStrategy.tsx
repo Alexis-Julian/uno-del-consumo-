@@ -57,8 +57,8 @@ export class JugarCartaStrategy implements AccionStrategy {
     }
 
     let cartaValida = false;
-    switch (carta.tipo) {
-      case "comun": {
+    switch (carta.type) {
+      case "common": {
         // Validar por color, número o sentimiento
         // Solo accedemos a color/numero/sentimiento si existen en ambos objetos
         if (
@@ -85,7 +85,7 @@ export class JugarCartaStrategy implements AccionStrategy {
         }
         break;
       }
-      case "accion": {
+      case "action": {
         if (
           "color" in carta &&
           "color" in cartaEnJuego &&
@@ -102,12 +102,12 @@ export class JugarCartaStrategy implements AccionStrategy {
         }
         break;
       }
-      case "comodin": {
+      /*  case "comodin": {
         // Por ejemplo: CréditoStrategy siempre se puede jugar
         cartaValida =
           "accion" in carta && carta.accion instanceof CreditoStrategy;
         break;
-      }
+      } */
     }
 
     if (!cartaValida) {
@@ -125,11 +125,12 @@ export class JugarCartaStrategy implements AccionStrategy {
     estado.cartas_usadas.push(carta);
 
     /* CUANDO LO QUE JUEGA ES UNA CARA DE ACCION */
-    if ("accion" in carta) {
-      estado = carta.accion.ejecutarAccion(estado);
-      if ("mensaje" in carta && estado.turno == 1) {
-        AlertaJuego.cartaAccion(carta.mensaje);
+    if ("action" in carta) {
+      estado = carta.action.ejecutarAccion(estado);
+      if ("comment" in carta && estado.turno == 1) {
+        AlertaJuego.cartaAccion(carta.comment);
       }
+
       return estado;
     }
     /* CUANDO LO QUE JUEGA ES UNA CARTA COMUN */
@@ -254,7 +255,7 @@ export class IniciarJuegoStrategy implements AccionStrategy {
   ejecutarAccion(estado: EstadoVacio): EstadoVacio {
     while (true) {
       estado.cartaActual = estado.baraja.obtener_carta();
-      if (estado.cartaActual?.tipo == "comun") {
+      if (estado.cartaActual?.type == "common") {
         break;
       }
     }
@@ -288,3 +289,21 @@ export class CantarVacioStrategy implements AccionStrategy {
     return estado;
   }
 }
+/* export default {
+  PasarTurnoStrategy,
+  RobarCartaStrategy,
+  JugarCartaStrategy,
+  RoboDosVeces,
+  AcumulacionStrategy,
+  TerapiaStrategy,
+  ResacaStrategy,
+  CreditoStrategy,
+  TentacionStrategy,
+  SilencioStrategy,
+  TurnosRotativosStrategy,
+  InfluencerStrategy,
+  IniciarJuegoStrategy,
+  FinDeRondaStrategy,
+  FinDeJuegoStrategy,
+  CantarVacioStrategy,
+}; */

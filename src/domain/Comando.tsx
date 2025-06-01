@@ -1,4 +1,4 @@
-import { REGLAS_VACIO } from "../constants/reglas";
+import { RULES_VACIO } from "../constants/reglas";
 import { type AccionStrategy } from "./AccionStrategy";
 import JuegoVacio from "./Juego";
 export default class AccionComando {
@@ -46,7 +46,7 @@ export default class AccionComando {
       }
 
       if (
-        this.accion === REGLAS_VACIO["pasar_turno"] &&
+        this.accion === RULES_VACIO["pass_turn"] &&
         !this.juego.estado.puede_pasar
       ) {
         this.juego.estado.puede_robar = true;

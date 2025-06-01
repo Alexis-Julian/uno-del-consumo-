@@ -1,7 +1,7 @@
 import Jugador from "./Jugador";
 import Baraja from "./Baraja";
-import type { CualquierCarta } from "./Carta";
 import type { AccionStrategy } from "./AccionStrategy";
+import type { AnyCard } from "../types/card";
 
 export default class EstadoVacio {
   //Actuales jugadores
@@ -10,9 +10,9 @@ export default class EstadoVacio {
   turno: number;
   //Baraja con la que se esta jugando la partida
   baraja: Baraja;
-  cartas_usadas: CualquierCarta[];
+  cartas_usadas: AnyCard[];
   //Carta actual en mesa
-  cartaActual: null | CualquierCarta;
+  cartaActual: null | AnyCard;
   colorActual: string;
   //Deuda colectiva
   deuda_colectiva: number;

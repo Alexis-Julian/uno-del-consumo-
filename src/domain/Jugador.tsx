@@ -1,10 +1,10 @@
-import type { CartaAccion, CartaComun, CartaComodin } from "./Carta";
+import type { AnyCard } from "../types/card";
 
 export default class Jugador {
   nombre: string;
   puntos: number;
-  cartas: (CartaComun | CartaAccion | CartaComodin | null)[];
-  carta_activa: CartaAccion | CartaComun | CartaComodin | null;
+  cartas: AnyCard[];
+  carta_activa: AnyCard | null;
   canto_vacio: boolean;
 
   constructor(nombre: string) {

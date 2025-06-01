@@ -1,5 +1,5 @@
-import { type CualquierCarta } from "../../domain/Carta";
+import { type AnyCard } from "../../types/card";
 export interface ListCardProps {
-  cards: (CualquierCarta | null)[];
+  cards: (AnyCard | null)[];
   onCardaction?: (index: number) => void;
 }

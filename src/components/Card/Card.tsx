@@ -1,9 +1,7 @@
 import { type CardProps } from "./Card.types";
-import {
-  SENTIMIENTOS_COLORES_VACIO,
-  type NombreSentimientos,
-} from "./constants";
-
+/* import { FEELINGS_COLORS_VACIO, type NombreSentimientos } from "./constants";
+import { FEELINGS_COLORS_VACIO, type NombreSentimientos } from "./constants";
+ */
 export default function Card({
   mensaje,
   sentimiento,
@@ -18,7 +16,7 @@ export default function Card({
         className={`flex flex-col  h-full border-2 relative `}
         style={{
           backgroundColor:
-            SENTIMIENTOS_COLORES_VACIO[sentimiento as NombreSentimientos],
+            /*  FEELINGS_COLORS_VACIO[sentimiento as NombreSentimientos] */ "white",
         }}
       >
         {/* Cabezera de la tarjeta */}
@@ -33,12 +31,12 @@ export default function Card({
           {!nombre_accion && <p className="font-black text-2xl">{mensaje}</p>}
 
           {/* Solamente se ejecuta cuando viene una carta de accion */}
-          {nombre_accion && nombre_accion == "SILENCIO" ? (
+          {nombre_accion && nombre_accion == "silence" ? (
             <span className="bg-[url('/src/assets/block.svg')] absolute h-full w-full bg-no-repeat bg-center"></span>
-          ) : nombre_accion == "TENTACION" ? (
+          ) : nombre_accion == "temptation" ? (
             <span className="bg-[url('/src/assets/bag.svg')] absolute h-full w-full bg-no-repeat bg-center"></span>
           ) : (
-            nombre_accion == "REVERSA" && (
+            nombre_accion == "reverse" && (
               <span className="bg-[url('/src/assets/reverse.svg')] absolute h-full w-full bg-no-repeat bg-bottom-right"></span>
             )
           )}
@@ -56,7 +54,7 @@ export default function Card({
             className="bg-white w-[120px] justify-center h-[35px]  text-md  flex items-center "
             style={{
               color:
-                SENTIMIENTOS_COLORES_VACIO[sentimiento as NombreSentimientos],
+                /* FEELINGS_COLORS_VACIO[sentimiento as NombreSentimientos] */ "white",
             }}
           >
             <p>{sentimiento}</p>

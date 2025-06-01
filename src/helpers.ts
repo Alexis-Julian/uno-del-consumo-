@@ -1,6 +1,6 @@
 import { CreditoStrategy } from "./domain/AccionStrategy";
 import type { CartaAccion, CartaComun } from "./domain/Carta";
-import type { CualquierCarta } from "./domain/Carta";
+import type { AnyCard } from "./domain/Carta";
 
 export function esCartaComun(carta: unknown): carta is CartaComun {
   return (
@@ -34,8 +34,8 @@ export function esCartaComodin(carta: unknown): carta is CartaComun {
 
 export class ValidadorDeCartas {
   static esCartaValida(
-    carta: CualquierCarta | null,
-    cartaEnJuego: CualquierCarta | null
+    carta: AnyCard | null,
+    cartaEnJuego: AnyCard | null
   ): boolean {
     if (!carta || !cartaEnJuego) return false;
 

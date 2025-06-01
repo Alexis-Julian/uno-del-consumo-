@@ -1,6 +1,6 @@
 import type JuegoVacio from "../../domain/Juego";
 import parteTraseraCarta from "../../assets/trasera.png";
-import { REGLAS_VACIO } from "../../constants/const";
+import { RULES_VACIO } from "../../constants/reglas";
 import Card from "../../components/Card/Card";
 interface TableroProp {
   useJugador: JuegoVacio;
@@ -14,7 +14,7 @@ export default function GameTable({ useJugador }: TableroProp) {
           disabled={!useJugador.estado.puede_robar}
           onClick={
             useJugador.estado.turno == 0
-              ? () => useJugador.jugar(REGLAS_VACIO["robar_carta"])
+              ? () => useJugador.jugar(RULES_VACIO["draw_card"])
               : undefined
           }
           className={`h-full w-full rounded-lg shadow-black shadow-sm    z-50  ${

@@ -1,7 +1,7 @@
 import EstadoVacio from "./Estado";
 import type { AccionStrategy } from "./AccionStrategy";
 
-import { REGLAS_VACIO } from "../constants/const";
+import { RULES_VACIO } from "../constants/reglas";
 import Swal from "sweetalert2";
 
 export interface Rule {
@@ -16,21 +16,21 @@ export default class RuleVacio implements Rule {
   //Verifica si la jugada es correcta
   acciones_validas(): AccionStrategy[] {
     return [
-      REGLAS_VACIO["carta1"],
-      REGLAS_VACIO["carta2"],
-      REGLAS_VACIO["carta3"],
-      REGLAS_VACIO["carta4"],
-      REGLAS_VACIO["carta5"],
-      REGLAS_VACIO["carta6"],
-      REGLAS_VACIO["carta7"],
-      REGLAS_VACIO["fin_juego"],
-      REGLAS_VACIO["fin_ronda"],
-      REGLAS_VACIO["iniciar_juego"],
-      REGLAS_VACIO["robar_carta"],
-      REGLAS_VACIO["pasar_turno"],
-      REGLAS_VACIO["validacion"],
-      REGLAS_VACIO["jugar_carta"],
-      REGLAS_VACIO["validacion_micro"],
+      RULES_VACIO["accumulation_check"],
+      RULES_VACIO["choose_emotion"],
+      RULES_VACIO["credit_card"],
+      RULES_VACIO["double_draw_check"],
+      RULES_VACIO["draw_card"],
+      RULES_VACIO["end_game"],
+      RULES_VACIO["end_round"],
+      RULES_VACIO["hangover_card"],
+      RULES_VACIO["pass_turn"],
+      RULES_VACIO["play_card"],
+      RULES_VACIO["reverse_turn"],
+      RULES_VACIO["silence_card"],
+      RULES_VACIO["start_game"],
+      RULES_VACIO["temptation_card"],
+      RULES_VACIO["therapy_card"],
     ];
   }
 
