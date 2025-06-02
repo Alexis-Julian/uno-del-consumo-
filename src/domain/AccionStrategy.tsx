@@ -255,7 +255,8 @@ export class IniciarJuegoStrategy implements AccionStrategy {
   ejecutarAccion(estado: EstadoVacio): EstadoVacio {
     while (true) {
       estado.cartaActual = estado.baraja.obtener_carta();
-      if (estado.cartaActual?.type == "common") {
+      console.log(estado.cartaActual);
+      if (estado.cartaActual.type == "common") {
         break;
       }
     }

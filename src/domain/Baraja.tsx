@@ -1,6 +1,6 @@
 import { CommunCard, ActionCard } from "./Carta";
 
-import type { AnyCard } from "../types/card";
+import type { AnyCard, actions } from "../types/card";
 
 import { COLORS_FEELINGS, ACTIONS_WITH_STRATEGYS } from "../constants/card";
 
@@ -65,7 +65,8 @@ export default class Baraja {
               ACTIONS_WITH_STRATEGYS[
                 action as keyof typeof ACTIONS_WITH_STRATEGYS
               ],
-              action
+              action as actions,
+              COLORS_FEELINGS[color]
             )
           );
         }
@@ -118,10 +119,16 @@ export default class Baraja {
   }
 
   obtener_carta(): AnyCard {
-    if (this.cards.length < 1) this.mezclar_cartas();
-    console.log("probrando");
-    const anyCard: AnyCard = this.cards[0];
-    this.cards.splice(1);
+    if (this.cards.length < 1) {
+      this.mezclar_cartas();
+    }
+
+    const copyCards = this.cards;
+    const anyCard: AnyCard = copyCards[0];
+    copyCards.reverse();
+    copyCards.splice(-1);
+
+    this.cards = copyCards;
 
     return anyCard;
   }

@@ -1,13 +1,48 @@
-import { type CardProps } from "./Card.types";
-/* import { FEELINGS_COLORS_VACIO, type NombreSentimientos } from "./constants";
-import { FEELINGS_COLORS_VACIO, type NombreSentimientos } from "./constants";
- */
-export default function Card({
-  mensaje,
-  sentimiento,
-  numero,
-  nombre_accion,
-}: CardProps) {
+import type { AnyCard } from "../../types/card";
+import { FEELINGS_COLORS_VACIO } from "./constants";
+
+export default function Card({ ...props }: AnyCard) {
+  function HeaderCard() {
+    if ("action" in props) {
+      return <p>{props.action_name}</p>;
+    } else {
+      return (
+        <>
+          <p>{props.feeling}</p>
+          <p>{props.number}</p>
+        </>
+      );
+    }
+  }
+
+  function MainCard() {
+    if ("action" in props) {
+      const stylesShared = "absolute h-full w-full bg-no-repeat bg-center";
+
+      const elementCard = {
+        silence: (
+          <span
+            className={`bg-[url('/src/assets/block.svg')] ${stylesShared}`}
+          ></span>
+        ),
+        temptation: (
+          <span
+            className={`bg-[url('/src/assets/bag.svg')] ${stylesShared}`}
+          ></span>
+        ),
+        reverse: (
+          <span
+            className={`bg-[url('/src/assets/reverse.svg')]  ${stylesShared}`}
+          ></span>
+        ),
+      };
+
+      return elementCard[props.action_name];
+    } else {
+      return <p className="font-black text-2xl">{props.comment}</p>;
+    }
+  }
+
   return (
     <div
       className={`text-center  transition-all list-none p-[1px] m-3 border-2 h-[300px]  w-[200px]  bg-white`}
@@ -15,31 +50,16 @@ export default function Card({
       <article
         className={`flex flex-col  h-full border-2 relative `}
         style={{
-          backgroundColor:
-            /*  FEELINGS_COLORS_VACIO[sentimiento as NombreSentimientos] */ "white",
+          backgroundColor: FEELINGS_COLORS_VACIO[props.feeling],
         }}
       >
         {/* Cabezera de la tarjeta */}
-        <header className="z-10 flex text-2xl font-black text-white items-center justify-around  min-h-[40px] h-[20%] ">
-          {!nombre_accion && <p>{sentimiento}</p>}
-          {!nombre_accion && <p>{numero}</p>}
-          {nombre_accion && <p>{nombre_accion}</p>}
-        </header>
+        <header className="z-10 flex text-2xl font-black text-white items-center justify-around  min-h-[40px] h-[20%] "></header>
+        <HeaderCard />
 
         {/* Cuerpo de la tarjeta */}
         <main className="z-10 h-[80%]  relative flex  items-center justify-center">
-          {!nombre_accion && <p className="font-black text-2xl">{mensaje}</p>}
-
-          {/* Solamente se ejecuta cuando viene una carta de accion */}
-          {nombre_accion && nombre_accion == "silence" ? (
-            <span className="bg-[url('/src/assets/block.svg')] absolute h-full w-full bg-no-repeat bg-center"></span>
-          ) : nombre_accion == "temptation" ? (
-            <span className="bg-[url('/src/assets/bag.svg')] absolute h-full w-full bg-no-repeat bg-center"></span>
-          ) : (
-            nombre_accion == "reverse" && (
-              <span className="bg-[url('/src/assets/reverse.svg')] absolute h-full w-full bg-no-repeat bg-bottom-right"></span>
-            )
-          )}
+          <MainCard />
 
           {/* Ovalo decorativo  */}
           <span
@@ -53,13 +73,12 @@ export default function Card({
           <div
             className="bg-white w-[120px] justify-center h-[35px]  text-md  flex items-center "
             style={{
-              color:
-                /* FEELINGS_COLORS_VACIO[sentimiento as NombreSentimientos] */ "white",
+              color: FEELINGS_COLORS_VACIO[props.feeling],
             }}
           >
-            <p>{sentimiento}</p>
+            <p>{props.feeling}</p>
           </div>
-          <p>{numero}</p>
+          {"number" in props && <p>{props.number}</p>}
         </footer>
 
         {/* background de la carta */}

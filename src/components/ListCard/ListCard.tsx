@@ -8,13 +8,15 @@ export default function ListCard({ cards, onCardaction }: ListCardProps) {
       className={`h-[90%] w-full z-10 flex flex-wrap overflow-scroll relative overflow-x-hidden transition-all`}
     >
       {cards.map((e, idx) => {
+        console.log(e);
         return e ? (
           <motion.li
             /* layoutId={} */
+            key={idx}
             className={`${onCardaction && "cursor-pointer"}`}
             onClick={onCardaction ? () => onCardaction(idx) : undefined}
           >
-            <Card key={idx} {...(e as React.ComponentProps<typeof Card>)} />
+            <Card key={idx} {...e} />
           </motion.li>
         ) : null;
       })}
