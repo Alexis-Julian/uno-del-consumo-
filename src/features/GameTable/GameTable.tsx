@@ -11,14 +11,14 @@ export default function GameTable({ useJugador }: TableroProp) {
     return (
       <div className="h-[294px] w-[194px] cursor-pointer relative border ">
         <button
-          disabled={!useJugador.estado.puede_robar}
+          disabled={!useJugador.state.puede_robar}
           onClick={
-            useJugador.estado.turno == 0
+            useJugador.state.turno == 0
               ? () => useJugador.jugar(RULES_VACIO["draw_card"])
               : undefined
           }
           className={`h-full w-full rounded-lg shadow-black shadow-sm    z-50  ${
-            !useJugador.estado.puede_robar
+            !useJugador.state.puede_robar
               ? "cursor-not-allowed"
               : "cursor-pointer"
           }`}
@@ -26,7 +26,7 @@ export default function GameTable({ useJugador }: TableroProp) {
           <img
             src={parteTraseraCarta}
             className={`h-full w-full  ${
-              useJugador.estado.turno == 0 &&
+              useJugador.state.turno == 0 &&
               "hover:scale-105 hover:translate-x-[-32px] transition-all "
             }`}
           />
@@ -39,15 +39,13 @@ export default function GameTable({ useJugador }: TableroProp) {
     );
   };
   {
-    /* <RenderizarCarta isGame={false} carta={useJugador.estado.cartaActual} /> */
+    /* <RenderizarCarta isGame={false} carta={useJugador.state.cartaActual} /> */
   }
 
   const LastCard = () => {
     return (
       <Card
-        {...(useJugador.estado.cartaActual as React.ComponentProps<
-          typeof Card
-        >)}
+        {...(useJugador.state.cartaActual as React.ComponentProps<typeof Card>)}
       />
     );
   };

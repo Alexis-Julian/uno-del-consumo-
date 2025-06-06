@@ -11,32 +11,32 @@ export default async function jugarTurnoRobot({
   useJuego: JuegoVacio;
 }) {
   // Asegurarse de que sea su turno
-  if (useJuego.estado.turno !== 1) return;
+  if (useJuego.state.turno !== 1) return;
 
   // Intentar hasta que no pueda jugar más
-  while (useJuego.estado.turno === 1) {
-    const cartas = useJuego.estado.jugadores[1].cartas;
+  while (useJuego.state.turno === 1) {
+    const cartas = useJuego.state.jugadores[1].cartas;
     const cartaValida = cartas.find((carta: AnyCard | null) =>
-      ValidadorDeCartas.esCartaValida(carta, useJuego.estado.cartaActual)
+      ValidadorDeCartas.esCartaValida(carta, useJuego.state.cartaActual)
     );
 
     if (cartaValida) {
       await esperar(800);
 
-      useJuego.estado.jugadores[1].carta_activa = cartaValida;
+      useJuego.state.jugadores[1].carta_activa = cartaValida;
       useJuego.jugar(RULES_VACIO["play_card"]);
 
       await esperar(500);
 
       // Si no puede jugar de nuevo rompe el bucle para el siguiente jugador nomas
-      if (!useJuego.estado.puede_jugar_nuevamente) break;
+      if (!useJuego.state.puede_jugar_nuevamente) break;
 
       // Si puede jugar nuevamente vuelve a empezar el bucle
       continue;
     }
 
     // Si no tenía carta válida, verifica si puede robar
-    const yaRobo = useJuego.estado.acciones_utilizadas.includes(
+    const yaRobo = useJuego.state.acciones_utilizadas.includes(
       RULES_VACIO["draw_card"]
     );
 
@@ -44,18 +44,18 @@ export default async function jugarTurnoRobot({
       useJuego.jugar(RULES_VACIO["draw_card"]);
       await esperar(1000);
 
-      const nuevasCartas = useJuego.estado.jugadores[1].cartas;
+      const nuevasCartas = useJuego.state.jugadores[1].cartas;
       const cartaNueva = nuevasCartas.find((carta: AnyCard | null) =>
-        ValidadorDeCartas.esCartaValida(carta, useJuego.estado.cartaActual)
+        ValidadorDeCartas.esCartaValida(carta, useJuego.state.cartaActual)
       );
 
       if (cartaNueva) {
-        useJuego.estado.jugadores[1].carta_activa = cartaNueva;
+        useJuego.state.jugadores[1].carta_activa = cartaNueva;
         useJuego.jugar(RULES_VACIO["play_card"]);
 
         await esperar(500);
 
-        if (!useJuego.estado.puede_jugar_nuevamente) break;
+        if (!useJuego.state.puede_jugar_nuevamente) break;
         continue;
       } else {
         await esperar(500);

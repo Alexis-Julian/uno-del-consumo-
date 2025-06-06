@@ -1,14 +1,14 @@
-import EstadoVacio from "./Estado";
+import stateVacio from "./State";
 import type { AccionStrategy } from "./AccionStrategy";
 
 import { RULES_VACIO } from "../constants/reglas";
 import Swal from "sweetalert2";
 
 export interface Rule {
-  acciones_validas(estado: EstadoVacio): AccionStrategy[];
-  turno_siguiente(estado: EstadoVacio): void;
-  hay_ganador(estado: EstadoVacio): boolean;
-  puede_cantar(estado: EstadoVacio): boolean;
+  acciones_validas(state: stateVacio): AccionStrategy[];
+  turno_siguiente(state: stateVacio): void;
+  hay_ganador(state: stateVacio): boolean;
+  puede_cantar(state: stateVacio): boolean;
   ganador(): void;
 }
 
@@ -35,17 +35,17 @@ export default class RuleVacio implements Rule {
   }
 
   // Cambia el turno con un booleano
-  turno_siguiente(estado: EstadoVacio): void {
-    if (estado.turno == 0) {
-      estado.turno = 1;
+  turno_siguiente(state: stateVacio): void {
+    if (state.turno == 0) {
+      state.turno = 1;
     } else {
-      estado.turno = 0;
+      state.turno = 0;
     }
   }
 
-  aplicar(estado: EstadoVacio, accion: AccionStrategy): void {
+  aplicar(state: stateVacio, accion: AccionStrategy): void {
     //Aplicamos la estregia jugada
-    accion.ejecutarAccion(estado);
+    accion.ejecutarAccion(state);
   }
 
   ganador(): void {
@@ -64,15 +64,15 @@ export default class RuleVacio implements Rule {
     });
   }
 
-  hay_ganador(estado: EstadoVacio): boolean {
-    const turno_actual = estado.turno;
+  hay_ganador(state: stateVacio): boolean {
+    const turno_actual = state.turno;
 
-    return estado.jugadores[turno_actual].cartas.length - 1 == 0 ? true : false;
+    return state.jugadores[turno_actual].cartas.length - 1 == 0 ? true : false;
   }
 
-  puede_cantar(estado: EstadoVacio): boolean {
-    const turno_actual = estado.turno;
-    if (estado.jugadores[turno_actual].cartas.length - 1 == 1) return true;
+  puede_cantar(state: stateVacio): boolean {
+    const turno_actual = state.turno;
+    if (state.jugadores[turno_actual].cartas.length - 1 == 1) return true;
     return false;
   }
 }

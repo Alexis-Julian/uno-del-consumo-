@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import viteLogo from '/vite.svg' */
 import "./App.css";
 import JuegoVacio from "./domain/Juego";
-import EstadoVacio from "./domain/Estado";
+import stateVacio from "./domain/State";
 import ReglasVacio from "./domain/Regla";
 import { RULES_VACIO } from "./constants/reglas";
 //import vacioPng from "../src/assets/Vacio.png";
@@ -17,14 +17,14 @@ import jugarTurnoRobot from "./robot";
 //import LogoVacio from "./components/LogoVacio";
 const esperar = (ms: number) => new Promise((res) => setTimeout(res, ms));
 function App() {
-  const [useEstado, setEstado] = useState<EstadoVacio>(new EstadoVacio());
+  const [usestate, setstate] = useState<stateVacio>(new stateVacio());
   const [useJuego] = useState<JuegoVacio>(
-    new JuegoVacio(new ReglasVacio(), useEstado, setEstado)
+    new JuegoVacio(new ReglasVacio(), usestate, setstate)
   );
   // const [PresentacionActiva, setPresentacionActiva] = useState(true);
   const [useCloseLogo, setCloseLogo] = useState(false);
 
-  // Estado que muestra el cartel ganador
+  // state que muestra el cartel ganador
 
   /* Efecto para darla interactividad a la IA */
   useEffect(() => {
@@ -32,10 +32,10 @@ function App() {
       await jugarTurnoRobot({ useJuego });
     };
 
-    if (!useJuego.estado.finalizado) {
+    if (!useJuego.state.finalizado) {
       ejecutarTurno();
     }
-  }, [useJuego, useJuego.estado.turno]);
+  }, [useJuego, useJuego.state.turno]);
 
   /* Efecto para iniciar una partida  */
   useEffect(() => {
@@ -80,8 +80,8 @@ function App() {
 
       {/* Pantallaso final cuando hay algun ganador */}
       <AnimatePresence>
-        {useJuego.estado.finalizado &&
-          useJuego.estado.ganador?.nombre === "CPU" && (
+        {useJuego.state.finalizado &&
+          useJuego.state.ganador?.nombre === "CPU" && (
             <motion.div
               key="ganador"
               className="h-full w-full absolute  z-50 bg-[url('/src/assets/bg_asfalto.png')] bg-[#e5cb98]"
@@ -93,8 +93,8 @@ function App() {
             </motion.div>
           )}
         )
-        {useJuego.estado.finalizado &&
-          useJuego.estado.ganador?.nombre !== "CPU" && (
+        {useJuego.state.finalizado &&
+          useJuego.state.ganador?.nombre !== "CPU" && (
             <motion.div
               key="perdedor"
               className="h-full w-full    gradiente_naranja_negro absolute  z-50   grid grid-cols-2 "

@@ -3,7 +3,7 @@ import Baraja from "./Baraja";
 import type { AccionStrategy } from "./AccionStrategy";
 import type { AnyCard } from "../types/card";
 
-export default class EstadoVacio {
+export default class stateVacio {
   //Actuales jugadores
   jugadores: Jugador[];
   //Turno del jugador actual

@@ -1,23 +1,25 @@
 import Card from "../Card/Card";
 import type { ListCardProps } from "./ListCard.types";
-import { motion } from "framer-motion";
 
-export default function ListCard({ cards, onCardaction }: ListCardProps) {
+export default function ListCard({
+  cards,
+  onCardaction,
+  isPlayer,
+}: ListCardProps) {
   return (
     <ul
       className={`h-[90%] w-full z-10 flex flex-wrap overflow-scroll relative overflow-x-hidden transition-all`}
     >
       {cards.map((e, idx) => {
-        console.log(e);
         return e ? (
-          <motion.li
-            /* layoutId={} */
-            key={idx}
-            className={`${onCardaction && "cursor-pointer"}`}
-            onClick={onCardaction ? () => onCardaction(idx) : undefined}
-          >
-            <Card key={idx} {...e} />
-          </motion.li>
+          <li key={idx}>
+            <Card
+              key={idx}
+              {...e}
+              onCardaction={onCardaction && onCardaction}
+              isPlayer={isPlayer}
+            />
+          </li>
         ) : null;
       })}
     </ul>

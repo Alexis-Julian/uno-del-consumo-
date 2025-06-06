@@ -23,7 +23,14 @@ export default class Jugador {
       }
     }
   }
-  seleccion_carta(numero: number) {
-    this.carta_activa = this.cartas[numero];
+  seleccion_carta(id: number) {
+    console.log(this.cartas);
+    const card = this.cartas.find((card) => card.id == id);
+    console.log(card, "SELECCIONAR_CARTA");
+    if (card) {
+      this.carta_activa = card;
+    } else {
+      console.log("Error en selecionar carta");
+    }
   }
 }

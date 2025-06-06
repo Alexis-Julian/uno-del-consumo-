@@ -34,30 +34,30 @@ export default function PlayerArea({
     </ul>;
   }; */
 
-  /*   const cartas = useJuego.estado.jugadores[id].cartas; */
+  /*   const cartas = useJuego.state.jugadores[id].cartas; */
 
   const cardAction = (index?: number) => {
     if (!index) return;
+    console.log(index);
+    useJuego.state.jugadores[useJuego.state.turno].seleccion_carta(index);
 
-    useJuego.estado.jugadores[useJuego.estado.turno].seleccion_carta(index);
-    useJuego.jugar(RULES_VACIO["jugar_carta"]);
+    useJuego.jugar(RULES_VACIO["play_card"]);
   };
 
   /* const jugar_carta = (index?: number) => {
       if (!index) return;
   
-      useJuego.estado.jugadores[useJuego.estado.turno].seleccion_carta(index);
+      useJuego.state.jugadores[useJuego.state.turno].seleccion_carta(index);
       useJuego.jugar(REGLAS_VACIO["jugar_carta"]);
     };
    */
   /* ${
-          useJuego.estado.turno == 0 && "box "
+          useJuego.state.turno == 0 && "box "
         } */
 
-  console.log(useJuego.estado.turno, "TURNO DEEE");
   const NavMenuYo = () => {
     /* console.log(
-      useJuego.estado.turno == 0 && useJuego.estado.puede_jugar_nuevamente
+      useJuego.state.turno == 0 && useJuego.state.puede_jugar_nuevamente
     ); */
     return (
       <nav className="h-[10%] w-full z-10 relative flex overflow-hidden">
@@ -65,7 +65,7 @@ export default function PlayerArea({
         <ul className="z-10 h-[100%] w-[100%]  flex items-center justify-center   gap-2  ">
           {/* SIMBOLO PARA VER LAS CARTAS DE LOS DEMAS JUGADORES */}
           <li
-            onClick={() => handleOpenTable()}
+            /*    onClick={() => handleOpenTable()} */
             className={`h-[80px] w-[80px]  hover:scale-90 transition-all cursor-pointer relative flex items-center justify-center `}
           >
             <img
@@ -82,11 +82,11 @@ export default function PlayerArea({
           <li className="z-10 h-[80px] w-[80px]   transition-all cursor-pointer relative">
             <button
               disabled={
-                useJuego.estado.turno !== 0 || !useJuego.estado.puede_pasar
+                useJuego.state.turno !== 0 || !useJuego.state.puede_pasar
               }
-              onClick={() => useJuego.jugar(RULES_VACIO["pasar_turno"])}
+              onClick={() => useJuego.jugar(RULES_VACIO["pass_turn"])}
               className={`rounded text-center h-full w-full text-white text-2xl flex items-center justify-center  transition-all ${
-                useJuego.estado.puede_pasar
+                useJuego.state.puede_pasar
                   ? "cursor-pointer hover:scale-90"
                   : "cursor-not-allowed hover:scale-100"
               }`}
@@ -99,14 +99,14 @@ export default function PlayerArea({
             </button>
             <div
               className={`bg-white/2 absolute h-full w-full top-0 z-[-1] rounded-full shadow-inner   ${
-                useJuego.estado.puede_pasar
+                useJuego.state.puede_pasar
                   ? "shadow-red-700 "
                   : "shadow-green-700"
               }`}
             >
               <div
                 className={`bg-white/2 h-full w-full  rounded-full  border-8 ${
-                  useJuego.estado.turno !== 0 || !useJuego.estado.puede_pasar
+                  useJuego.state.turno !== 0 || !useJuego.state.puede_pasar
                     ? "border-red-500/40 "
                     : "border-green-500/40"
                 }`}
@@ -116,16 +116,16 @@ export default function PlayerArea({
           {/* SIMBOLO PARA CANTAR VACIO! */}
           <li className="z-10 h-[80px] w-[80px]   transition-all  relative">
             <button
-              disabled={!useJuego.estado.jugadores[0].canto_vacio}
+              disabled={!useJuego.state.jugadores[0].canto_vacio}
               onClick={
-                useJuego.estado.jugadores[0].canto_vacio
+                useJuego.state.jugadores[0].canto_vacio
                   ? handleMostrarVacio
                   : undefined
               }
               className={`rounded text-center h-full w-full text-white text-2xl transition-all ${
                 !(
-                  useJuego.estado.turno == 0 &&
-                  useJuego.estado.jugadores[0].canto_vacio
+                  useJuego.state.turno == 0 &&
+                  useJuego.state.jugadores[0].canto_vacio
                 )
                   ? " shadow-red-700   cursor-not-allowed hover:  "
                   : "shadow-green-700 hover:scale-100 cursor-pointer"
@@ -139,8 +139,8 @@ export default function PlayerArea({
               <div
                 className={`h-full w-full  rounded-full border-8 ${
                   !(
-                    useJuego.estado.turno == 0 &&
-                    useJuego.estado.jugadores[0].canto_vacio
+                    useJuego.state.turno == 0 &&
+                    useJuego.state.jugadores[0].canto_vacio
                   )
                     ? "border-red-500/40 "
                     : "border-green-500/40"
@@ -167,19 +167,20 @@ export default function PlayerArea({
       </ul>
     );
   };
+
   return (
     <aside className={`h-full w-[40%] relative  shadow-lg shadow-black p-2 `}>
       <div className="relative bg-[#290404]   bg- h-full w-full rounded-md  shadow-sm border-2 border-gray-500/50 shadow-black   flex flex-col">
-        {id == 0 ? (
-          <NavMenuYo />
+        {/* {id == 0 ? (
         ) : (
-          /* Posibilidad de modularizar */
           <NavMenuRobot />
-        )}
+          )} */}
+        <NavMenuYo />
 
         <ListCard
-          cards={useJuego.estado.jugadores[0].cartas}
+          cards={useJuego.state.jugadores[0].cartas}
           onCardaction={cardAction}
+          isPlayer={true}
         />
 
         <div className="h-full w-full absolute  bg-[url('/src/assets/bg_grietas.png')] bg-center   opacity-20"></div>

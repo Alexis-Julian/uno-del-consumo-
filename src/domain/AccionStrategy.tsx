@@ -1,59 +1,59 @@
 import { reproducirSonido } from "../helpers";
 import notyf from "../libraries/notyf";
 import AlertaJuego from "../libraries/swal";
-import type EstadoVacio from "./Estado";
+import type stateVacio from "./State";
 // ESTRETEGIAS DEL MICRO-JUEGO
 
 export interface AccionStrategy {
-  ejecutarAccion(estado: EstadoVacio): EstadoVacio;
+  ejecutarAccion(state: stateVacio): stateVacio;
 }
 
 // Pasar jugada
 
 export class PasarTurnoStrategy implements AccionStrategy {
-  ejecutarAccion(estado: EstadoVacio): EstadoVacio {
-    estado.puede_jugar_nuevamente = false;
-    estado.puede_pasar = false;
-    estado.puede_robar = false;
-    return estado;
+  ejecutarAccion(state: stateVacio): stateVacio {
+    state.puede_jugar_nuevamente = false;
+    state.puede_pasar = false;
+    state.puede_robar = false;
+    return state;
   }
 }
 
 // Obtener carta del pozo
 export class RobarCartaStrategy implements AccionStrategy {
-  ejecutarAccion(estado: EstadoVacio): EstadoVacio {
-    const carta = estado.baraja.obtener_carta();
+  ejecutarAccion(state: stateVacio): stateVacio {
+    const carta = state.baraja.obtener_carta();
     // Si el mazo no devuelve mas cartas usar una strategy para volver a barajar con las cartas
     if (!carta) {
       console.log("Mazo totalmente usado");
-      estado.baraja.reinsertar_carta(estado.cartas_usadas);
-      return this.ejecutarAccion(estado);
+      state.baraja.reinsertar_carta(state.cartas_usadas);
+      return this.ejecutarAccion(state);
     }
 
     // Agregamos una carta al jugador que estaba en turno activo
-    estado.jugadores[estado.turno].cartas.push(carta);
+    state.jugadores[state.turno].cartas.push(carta);
 
-    estado.puede_jugar_nuevamente = true;
-    estado.puede_pasar = true;
-    estado.puede_robar = false;
-    return estado;
+    state.puede_jugar_nuevamente = true;
+    state.puede_pasar = true;
+    state.puede_robar = false;
+    return state;
   }
 }
 
 export class JugarCartaStrategy implements AccionStrategy {
-  ejecutarAccion(estado: EstadoVacio): EstadoVacio {
-    const jugador = estado.jugadores[estado.turno];
+  ejecutarAccion(state: stateVacio): stateVacio {
+    const jugador = state.jugadores[state.turno];
     const carta = jugador.carta_activa;
-    const cartaEnJuego = estado.cartaActual;
-
+    console.log(carta);
+    const cartaEnJuego = state.cartaActual;
     if (!carta) {
       console.log("No hay carta activa para jugar.");
-      return estado;
+      return state;
     }
 
     if (!cartaEnJuego) {
       console.log("No hay carta en juego para comparar.");
-      return estado;
+      return state;
     }
 
     let cartaValida = false;
@@ -69,16 +69,16 @@ export class JugarCartaStrategy implements AccionStrategy {
           reproducirSonido("/uno-del-consumo/card.mp3");
           cartaValida = true;
         } else if (
-          "numero" in carta &&
-          "numero" in cartaEnJuego &&
-          carta.numero === cartaEnJuego.numero
+          "number" in carta &&
+          "number" in cartaEnJuego &&
+          carta.number === cartaEnJuego.number
         ) {
           reproducirSonido("/uno-del-consumo/card.mp3");
           cartaValida = true;
         } else if (
-          "sentimiento" in carta &&
-          "sentimiento" in cartaEnJuego &&
-          carta.sentimiento === cartaEnJuego.sentimiento
+          "feeling" in carta &&
+          "feeling" in cartaEnJuego &&
+          carta.feeling === cartaEnJuego.feeling
         ) {
           reproducirSonido("/uno-del-consumo/card.mp3");
           cartaValida = true;
@@ -93,9 +93,9 @@ export class JugarCartaStrategy implements AccionStrategy {
         ) {
           cartaValida = true;
         } else if (
-          "sentimiento" in carta &&
-          "sentimiento" in cartaEnJuego &&
-          carta.sentimiento === cartaEnJuego.sentimiento
+          "feeling" in carta &&
+          "feeling" in cartaEnJuego &&
+          carta.feeling === cartaEnJuego.feeling
         ) {
           reproducirSonido("/card.mp3");
           cartaValida = true;
@@ -113,55 +113,55 @@ export class JugarCartaStrategy implements AccionStrategy {
     if (!cartaValida) {
       console.log("Carta inválida. No se puede jugar.");
       notyf.error("Carta invalida");
-      estado.puede_jugar_nuevamente = true;
-      return estado;
+      state.puede_jugar_nuevamente = true;
+      return state;
     }
 
     // Jugar la carta
     jugador.cartas = jugador.cartas.filter((c) => c !== carta);
     // Carta que el jugador tiene activa cambiar logica
     jugador.carta_activa = null;
-    estado.cartaActual = carta;
-    estado.cartas_usadas.push(carta);
+    state.cartaActual = carta;
+    state.cartas_usadas.push(carta);
 
     /* CUANDO LO QUE JUEGA ES UNA CARA DE ACCION */
     if ("action" in carta) {
-      estado = carta.action.ejecutarAccion(estado);
-      if ("comment" in carta && estado.turno == 1) {
+      state = carta.action.ejecutarAccion(state);
+      if ("comment" in carta && state.turno == 1) {
         AlertaJuego.cartaAccion(carta.comment);
       }
 
-      return estado;
+      return state;
     }
     /* CUANDO LO QUE JUEGA ES UNA CARTA COMUN */
-    if (estado.puede_jugar_nuevamente == true && "numero" in carta) {
-      estado.puede_robar = false;
-      estado.puede_jugar_nuevamente = false;
-      estado.puede_pasar = false;
+    if (state.puede_jugar_nuevamente == true && "number" in carta) {
+      state.puede_robar = false;
+      state.puede_jugar_nuevamente = false;
+      state.puede_pasar = false;
     }
-    return estado;
+    return state;
   }
 }
 
 // No robar mas de dos veces siguiente paso
 export class RoboDosVeces implements AccionStrategy {
-  ejecutarAccion(estado: EstadoVacio): EstadoVacio {
-    return estado;
+  ejecutarAccion(state: stateVacio): stateVacio {
+    return state;
   }
 }
 
 // Acumulacion de de variante o de cartas de accion
 export class AcumulacionStrategy implements AccionStrategy {
-  ejecutarAccion(estado: EstadoVacio): EstadoVacio {
-    return estado;
+  ejecutarAccion(state: stateVacio): stateVacio {
+    return state;
   }
 }
 
 // Quien juega esta carta descarta hasta 2 Resaca de tu mano, pero pagas +1 Deuda colectiva
 export class TerapiaStrategy implements AccionStrategy {
-  ejecutarAccion(estado: EstadoVacio): EstadoVacio {
+  ejecutarAccion(state: stateVacio): stateVacio {
     // Logica de la strategy
-    return estado;
+    return state;
   }
 }
 
@@ -169,18 +169,18 @@ export class TerapiaStrategy implements AccionStrategy {
 // será el turno del Consumidor de la derecha y viceversa.
 // Esta carta solamente se puede jugar con cartas que coincidan con la emoción correspondiente.
 export class ResacaStrategy implements AccionStrategy {
-  ejecutarAccion(estado: EstadoVacio): EstadoVacio {
+  ejecutarAccion(state: stateVacio): stateVacio {
     // Logica de la strategy
-    return estado;
+    return state;
   }
 }
 
 // Quien juega esta carta decide con que emoción va a continuar la ronda y
 // además obliga al siguiente consumidor a tener 4 emociones nuevas y avanza el marcador de deuda colectiva +2
 export class CreditoStrategy implements AccionStrategy {
-  ejecutarAccion(estado: EstadoVacio): EstadoVacio {
+  ejecutarAccion(state: stateVacio): stateVacio {
     // Logica de la strategy
-    return estado;
+    return state;
   }
 }
 
@@ -188,62 +188,60 @@ export class CreditoStrategy implements AccionStrategy {
 // Esta carta solo puede jugarse sobre cartas que coincidan con la emoción o sobre otras
 // – Además genera 1 Resaca y la añade a su mano
 export class TentacionStrategy implements AccionStrategy {
-  ejecutarAccion(estado: EstadoVacio): EstadoVacio {
+  ejecutarAccion(state: stateVacio): stateVacio {
     let turno_enemigo: number;
     /*  const cartas_agregar = []; */
-    if (estado.turno == 0) {
+    if (state.turno == 0) {
       turno_enemigo = 1;
     } else {
       turno_enemigo = 0;
     }
     for (let index = 0; index < 2; index++) {
-      estado.jugadores[turno_enemigo].cartas.push(
-        estado.baraja.obtener_carta()
-      );
+      state.jugadores[turno_enemigo].cartas.push(state.baraja.obtener_carta());
     }
 
     /* PUEDE JUGAR NUEVAMENTE? */
-    estado.puede_robar = false;
-    estado.puede_jugar_nuevamente = false;
-    estado.puede_pasar = false;
-    return estado;
+    state.puede_robar = false;
+    state.puede_jugar_nuevamente = false;
+    state.puede_pasar = false;
+    return state;
   }
 }
 
 // El consumidor siguiente no realizara ninguna jugada y pierde el turno.
 // Esta carta solamente se puede jugar sobre la emoción correspondiente
 export class SilencioStrategy implements AccionStrategy {
-  ejecutarAccion(estado: EstadoVacio): EstadoVacio {
+  ejecutarAccion(state: stateVacio): stateVacio {
     // Logica de la strategy
 
-    estado.puede_robar = true;
-    estado.puede_jugar_nuevamente = true;
-    estado.puede_pasar = false;
-    return estado;
+    state.puede_robar = true;
+    state.puede_jugar_nuevamente = true;
+    state.puede_pasar = false;
+    return state;
   }
 }
 
 // Horario o antihorario, afectado por la carta de cambio de sentido
 export class TurnosRotativosStrategy implements AccionStrategy {
-  ejecutarAccion(estado: EstadoVacio): EstadoVacio {
-    if (estado.flujo == "normal") {
-      estado.flujo = "invertido";
+  ejecutarAccion(state: stateVacio): stateVacio {
+    if (state.flujo == "normal") {
+      state.flujo = "invertido";
     } else {
-      estado.flujo = "normal";
+      state.flujo = "normal";
     }
 
-    estado.puede_robar = true;
-    estado.puede_jugar_nuevamente = true;
-    estado.puede_pasar = false;
-    return estado;
+    state.puede_robar = true;
+    state.puede_jugar_nuevamente = true;
+    state.puede_pasar = false;
+    return state;
   }
 }
 
 // Quien juegue un comodín debería decir en voz alta si cambia la emoción correspondiente.
 export class InfluencerStrategy implements AccionStrategy {
-  ejecutarAccion(estado: EstadoVacio): EstadoVacio {
+  ejecutarAccion(state: stateVacio): stateVacio {
     // Logica de la strategy
-    return estado;
+    return state;
   }
 }
 
@@ -252,42 +250,41 @@ export class InfluencerStrategy implements AccionStrategy {
 // Cada jugador recibe 7 cartas
 // Se revela una carta inicial del del mazo (No puede ser una carta especial o de accion)
 export class IniciarJuegoStrategy implements AccionStrategy {
-  ejecutarAccion(estado: EstadoVacio): EstadoVacio {
+  ejecutarAccion(state: stateVacio): stateVacio {
     while (true) {
-      estado.cartaActual = estado.baraja.obtener_carta();
-      console.log(estado.cartaActual);
-      if (estado.cartaActual.type == "common") {
+      state.cartaActual = state.baraja.obtener_carta();
+      if (state.cartaActual.type == "common") {
         break;
       }
     }
 
-    for (let i = 0; i < estado.jugadores.length; i++) {
+    for (let i = 0; i < state.jugadores.length; i++) {
       for (let j = 0; j < 7; j++) {
-        estado.jugadores[i].cartas.push(estado.baraja.obtener_carta());
+        state.jugadores[i].cartas.push(state.baraja.obtener_carta());
       }
     }
 
-    return estado;
+    return state;
   }
 }
 
 // Jugador que se quede sin cartas se suman los puntos de los demas
 export class FinDeRondaStrategy implements AccionStrategy {
-  ejecutarAccion(estado: EstadoVacio): EstadoVacio {
-    return estado;
+  ejecutarAccion(state: stateVacio): stateVacio {
+    return state;
   }
 }
 
 // Juego entero hasta 500 puntos
 export class FinDeJuegoStrategy implements AccionStrategy {
-  ejecutarAccion(estado: EstadoVacio): EstadoVacio {
-    return estado;
+  ejecutarAccion(state: stateVacio): stateVacio {
+    return state;
   }
 }
 
 export class CantarVacioStrategy implements AccionStrategy {
-  ejecutarAccion(estado: EstadoVacio): EstadoVacio {
-    return estado;
+  ejecutarAccion(state: stateVacio): stateVacio {
+    return state;
   }
 }
 /* export default {

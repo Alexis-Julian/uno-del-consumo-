@@ -1,7 +1,8 @@
-import type { AnyCard } from "../../types/card";
 import { FEELINGS_COLORS_VACIO } from "./constants";
+import { motion } from "framer-motion";
+import type { Props } from "./Card.types";
 
-export default function Card({ ...props }: AnyCard) {
+export default function Card({ ...props }: Props) {
   function HeaderCard() {
     if ("action" in props) {
       return <p>{props.action_name}</p>;
@@ -43,9 +44,17 @@ export default function Card({ ...props }: AnyCard) {
     }
   }
 
+  console.log();
   return (
-    <div
-      className={`text-center  transition-all list-none p-[1px] m-3 border-2 h-[300px]  w-[200px]  bg-white`}
+    <motion.div
+      onClick={
+        props.onCardaction ? () => props.onCardaction?.(props.id) : undefined
+      }
+      transition={{ duration: 2 }}
+      layoutId={props.isPlayer ? String(props.id) : undefined}
+      className={`${
+        props.onCardaction && "cursor-pointer"
+      } text-center  transition-all list-none p-[1px] m-3 border-2 h-[300px]  w-[200px]  bg-white`}
     >
       <article
         className={`flex flex-col  h-full border-2 relative `}
@@ -84,6 +93,6 @@ export default function Card({ ...props }: AnyCard) {
         {/* background de la carta */}
         <div className="bg-[url('/src/assets/bg_grietas.png')] absolute  h-full w-full opacity-30 z-0"></div>
       </article>
-    </div>
+    </motion.div>
   );
 }

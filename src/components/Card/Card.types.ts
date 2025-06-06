@@ -1,11 +1,7 @@
-/* import type { actions } from "../../types/card"; */
+import type { AnyCard } from "../../types/card";
 
-/* export interface CardCommunProps {
-  color: string;
-  comment: string;
-  feeling: string;
-  id: number;
-  number: number;
-  type:
+export type Props = AnyCard & ButtonProps & { isPlayer: boolean };
+
+export interface ButtonProps {
+  onCardaction?: (index?: number) => void;
 }
- */
