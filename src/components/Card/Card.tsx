@@ -1,5 +1,4 @@
 import { FEELINGS_COLORS_VACIO } from "./constants";
-import { motion } from "framer-motion";
 import type { Props } from "./Card.types";
 
 export default function Card({ ...props }: Props) {
@@ -43,15 +42,12 @@ export default function Card({ ...props }: Props) {
       return <p className="font-black text-2xl">{props.comment}</p>;
     }
   }
-
-  console.log();
+  console.log(String(props.id));
   return (
-    <motion.div
+    <div
       onClick={
         props.onCardaction ? () => props.onCardaction?.(props.id) : undefined
       }
-      transition={{ duration: 2 }}
-      layoutId={props.isPlayer ? String(props.id) : undefined}
       className={`${
         props.onCardaction && "cursor-pointer"
       } text-center  transition-all list-none p-[1px] m-3 border-2 h-[300px]  w-[200px]  bg-white`}
@@ -93,6 +89,6 @@ export default function Card({ ...props }: Props) {
         {/* background de la carta */}
         <div className="bg-[url('/src/assets/bg_grietas.png')] absolute  h-full w-full opacity-30 z-0"></div>
       </article>
-    </motion.div>
+    </div>
   );
 }

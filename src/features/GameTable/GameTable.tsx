@@ -2,6 +2,7 @@ import type JuegoVacio from "../../domain/Juego";
 import parteTraseraCarta from "../../assets/trasera.png";
 import { RULES_VACIO } from "../../constants/reglas";
 import Card from "../../components/Card/Card";
+import { AnimatePresence, motion } from "framer-motion";
 interface TableroProp {
   useJugador: JuegoVacio;
 }
@@ -44,9 +45,15 @@ export default function GameTable({ useJugador }: TableroProp) {
 
   const LastCard = () => {
     return (
-      <Card
-        {...(useJugador.state.cartaActual as React.ComponentProps<typeof Card>)}
-      />
+      <AnimatePresence mode="popLayout">
+        <motion.div layoutId={String(useJugador.state.cartaActual?.id)}>
+          <Card
+            {...(useJugador.state.cartaActual as React.ComponentProps<
+              typeof Card
+            >)}
+          />
+        </motion.div>
+      </AnimatePresence>
     );
   };
 

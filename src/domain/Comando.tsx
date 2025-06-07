@@ -15,7 +15,7 @@ export default class AccionComando {
       /*  const turno = this.juego.state.turno; */
 
       // Delega la logica de la jugada
-
+      console.log(this.accion);
       /* CAMBIO RECIENTE */
       if (this.juego.state.acciones_utilizadas.length == 0) {
         this.juego.state.puede_robar = true;
