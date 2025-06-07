@@ -42,7 +42,6 @@ export default function Card({ ...props }: Props) {
       return <p className="font-black text-2xl">{props.comment}</p>;
     }
   }
-  console.log(String(props.id));
   return (
     <div
       onClick={
@@ -50,7 +49,7 @@ export default function Card({ ...props }: Props) {
       }
       className={`${
         props.onCardaction && "cursor-pointer"
-      } text-center  transition-all list-none p-[1px] m-3 border-2 h-[300px]  w-[200px]  bg-white`}
+      } text-center  transition-all list-none p-[1px] m-3 border-2 h-[300px]  w-[200px]  bg-white  `}
     >
       <article
         className={`flex flex-col  h-full border-2 relative `}

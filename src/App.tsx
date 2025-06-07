@@ -7,23 +7,22 @@ import stateVacio from "./domain/State";
 import ReglasVacio from "./domain/Regla";
 import { RULES_VACIO } from "./constants/reglas";
 //import vacioPng from "../src/assets/Vacio.png";
-import logoPng from "../src/assets/logo.png";
+/* import logoPng from "../src/assets/logo.png"; */
 /* import imagePerdedora from "../src/assets/imagen_perdedora.png"; */
-import GameTable from "./features/GameTable/GameTable";
-import PlayezrArea from "./features/PlayerArea/PlayerArea";
+
 import { motion, AnimatePresence } from "framer-motion";
 import jugarTurnoRobot from "./robot";
 import HomeView from "./features/HomeView/HomeView";
 /* import AlertaJuego from "./libraries/swal"; */
 //import LogoVacio from "./components/LogoVacio";
-const esperar = (ms: number) => new Promise((res) => setTimeout(res, ms));
+/* const esperar = (ms: number) => new Promise((res) => setTimeout(res, ms)); */
 function App() {
   const [usestate, setstate] = useState<stateVacio>(new stateVacio());
   const [useJuego] = useState<JuegoVacio>(
     new JuegoVacio(new ReglasVacio(), usestate, setstate)
   );
   // const [PresentacionActiva, setPresentacionActiva] = useState(true);
-  const [useCloseLogo, setCloseLogo] = useState(false);
+  /*  const [useCloseLogo, setCloseLogo] = useState(false); */
 
   // state que muestra el cartel ganador
 
@@ -46,14 +45,14 @@ function App() {
      */
   }, [useJuego]);
 
-  async function handleMostrarVacio() {
+  /* async function handleMostrarVacio() {
     const nuevo_bool = !useCloseLogo;
     setCloseLogo(nuevo_bool);
 
     await esperar(1000);
     const segundo_bool = !nuevo_bool;
     setCloseLogo(segundo_bool);
-  }
+  } */
 
   return (
     <body className="overflow-hidden relative">
@@ -104,8 +103,7 @@ function App() {
           )}
       </AnimatePresence>
       {/* Presentacion del logo vacio cuando un jugador canta */}
-      {
-        <AnimatePresence>
+      {/*  <AnimatePresence>
           {useCloseLogo && (
             <motion.div
               className={`$ absolute top-0 z-50 h-full w-full flex items-center justify-center animate-rotate-x `}
@@ -121,32 +119,9 @@ function App() {
               />
             </motion.div>
           )}
-        </AnimatePresence>
-      }
+        </AnimatePresence> */}
 
       {<HomeView useJuego={useJuego} />}
-
-      {/* Desarrollo de la section y el contenido */}
-      {/*  <section className="flex h-full w-full relative overflow-hidden">
-        <div className="absolute h-full w-full  bg-[url('/src/assets/bg_asfalto.png')] bg-contain bg-center bg-no-repeat "></div>
-        <div className="absolute h-full w-full bg-[#c23113]/20  "></div>
-        <div className="h-full w-[30%]">
-          <PlayerArea
-            useJuego={useJuego}
-            id={0}
-            handleOpenTable={handleOpenTable}
-            handleMostrarVacio={handleMostrarVacio}
-          />
-        </div> */}
-
-      {/* Seccion donde los jugadores juegan se ven las cartas en mesa las cartas usadas y los jugadores en mesa */}
-      {/*  <section className="p-8 relative w-[60%] flex flex-col  items-center justify-around  ">
-          <aside className="h-[80%] bg-[#8a582b] p-4 w-[100%] z-10 rounded-sm relative overflow-hidden">
-            <GameTable useJugador={useJuego} />
-            <div className="h-full w-full absolute top-0 left-0 bg-[url('/src/assets/bg_grietas.png')] bg-cover bg-no-repeat bg-center  opacity-50"></div>
-          </aside>
-        </section>
-      </section> */}
     </body>
   );
 }

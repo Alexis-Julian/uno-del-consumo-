@@ -5,13 +5,18 @@ import type { ListCardProps } from "./ListCard.types";
 export default function ListCard({
   cards,
   onCardaction,
-  isPlayer,
+  back,
+  scrollable = true,
+  style,
 }: ListCardProps) {
   return (
     <ul
-      className={`h-[90%] w-full z-10 flex flex-wrap overflow-scroll relative overflow-x-hidden transition-all`}
+      className={`h-full w-full z-10 flex flex-wrap ${
+        scrollable ? "overflow-scroll" : "overflow-hidden"
+      } relative overflow-x-hidden transition-all`}
+      style={style}
     >
-      <AnimatePresence mode="sync">
+      <AnimatePresence mode="popLayout">
         {cards.map((e, idx) => {
           return e ? (
             <motion.li
@@ -26,12 +31,15 @@ export default function ListCard({
               whileHover={{ scale: 1.05 }}
               layoutId={String(e.id)}
             >
-              <Card
-                key={idx}
-                {...e}
-                onCardaction={onCardaction && onCardaction}
-                isPlayer={isPlayer}
-              />
+              {!back ? (
+                <Card
+                  key={idx}
+                  {...e}
+                  onCardaction={onCardaction && onCardaction}
+                />
+              ) : (
+                <div className="h-[294px] w-[194px] border-white border-2 bg-[url('/src/assets/trasera.png')]  bg-cover bg-center bg-no-repeat bg- "></div>
+              )}
             </motion.li>
           ) : null;
         })}

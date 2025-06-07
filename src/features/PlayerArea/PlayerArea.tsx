@@ -26,29 +26,24 @@ export default function PlayerArea({ useJuego, id }: ManoJugadorProps) {
   const NavBar = () => {
     // Componente de navegacion
     const NavItem = ({
-      img,
       onAction,
+      content,
     }: {
-      img: string;
       onAction: Callback;
+      content: string;
     }) => {
       return (
-        <li
-          className={`h-[100px] w-[100px] rounded text-center  text-white text-2xl flex items-center justify-center transition-all `}
-        >
+        <li className="h-[100%] w-[100%] flex items-center justify-center">
           <button
             onClick={onAction}
             disabled={useJuego.state.turno !== 0}
-            className={`${
+            className={`flex items-center justify-center border-white/50 border-2 p-2 px-4 rounded-full ${
               useJuego.state.turno !== 0
                 ? "cursor-not-allowed opacity-50"
                 : "cursor-pointer"
             } `}
           >
-            <img
-              src={img}
-              className="h-[80%] w-[80%] p-2 z-10 border-2 border-black/20 rounded-full"
-            />
+            <p className=" font-extralight text-lg">{content}</p>
           </button>
         </li>
       );
@@ -56,12 +51,12 @@ export default function PlayerArea({ useJuego, id }: ManoJugadorProps) {
 
     const items = {
       card_heart: {
-        img: card_heart,
+        img: logo_icon,
         action: () => {},
         content: "Cantar Vacio",
       },
       logo_icon: {
-        img: logo_icon,
+        img: card_heart,
         action: () => {
           useJuego.jugar(RULES_VACIO["pass_turn"]);
         },
@@ -72,9 +67,13 @@ export default function PlayerArea({ useJuego, id }: ManoJugadorProps) {
     return (
       <nav className="h-[10%] w-full z-10 relative flex overflow-hidden">
         {/* Es posible moduralizar aca */}
-        <ul className="z-10 h-[100%] w-[100%]  grid grid-cols-2 gap-2 relative place-items-center">
+        <ul className="z-10 h-[100%] w-[100%]  grid grid-cols-2 gap-2 relative place-items-center place-content-center">
           {Object.entries(items).map(([key, value]) => (
-            <NavItem key={key} img={value.img} onAction={value.action} />
+            <NavItem
+              key={key}
+              onAction={value.action}
+              content={value.content}
+            />
           ))}
         </ul>
         <div className="h-full w-full absolute top-0 blur-sm bg-white/10  border-b-2 border-red-700/50"></div>
@@ -90,7 +89,6 @@ export default function PlayerArea({ useJuego, id }: ManoJugadorProps) {
         <ListCard
           cards={useJuego.state.jugadores[id].cartas}
           onCardaction={cardAction}
-          isPlayer={true}
         />
 
         <div className="h-full w-full absolute  bg-[url('/src/assets/bg_grietas.png')] bg-center   opacity-20"></div>

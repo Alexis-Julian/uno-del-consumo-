@@ -58,7 +58,7 @@ export default function GameTable({ useJugador }: TableroProp) {
   };
 
   return (
-    <div className="items-center justify-items-center grid grid-cols-2 relative shadow-inner shadow-black     bg-[#2a8156]   h-full w-full">
+    <div className="bg-[url('/src/assets/bg_asfalto.png')] items-center justify-items-center grid grid-cols-2 relative shadow-inner shadow-black     bg-[#2a8156]   h-full w-full">
       <div className="z-10">
         <MazoDeCarta />
       </div>
