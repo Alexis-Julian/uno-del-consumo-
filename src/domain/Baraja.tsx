@@ -27,12 +27,19 @@ export default class Baraja {
     /* Array de nuevas cartas */
     const nuevasCartas: CommunCard[] = [];
 
+    const feelingsMessage = {
+      euforia: "¡Lo necesito!",
+      calma: "¡Busco relax comprando!",
+      brillo: "¡Eso me encanta!",
+      impulso: "¡No puedo resistirme!",
+    };
+
     /* Creacion de las cartas  */
     for (let i = 0; i < 4; i++) {
       for (let j = 0; j < 9; j++) {
         nuevasCartas.push(
           new CommunCard(
-            "¡Lo necesito ya!",
+            feelingsMessage[sentimientosValues[i]],
             coloresKeys[i],
             j + 1,
             sentimientosValues[i]
@@ -51,6 +58,12 @@ export default class Baraja {
       COLORS_FEELINGS
     ) as (keyof typeof COLORS_FEELINGS)[];
 
+    const dictActionMessage = {
+      temptation: "¡Te sentiste atraido por una moda!",
+      reverse: "!La moda cambio de sentido!",
+      silence: "!El mercado te silencia!",
+    };
+
     /* Itera sobre cada accion y por cada accion va iterar sobre los 4 colores y 
     por cada esos 4 colores va sacar 2 cartas */
     /* TENTACION | REVERSA | SILENCIO | NARANJA */
@@ -60,7 +73,7 @@ export default class Baraja {
         for (let index = 0; index < 2; index++) {
           ActionCards.push(
             new ActionCard(
-              "--------",
+              dictActionMessage[action as actions],
               color,
               ACTIONS_WITH_STRATEGYS[
                 action as keyof typeof ACTIONS_WITH_STRATEGYS

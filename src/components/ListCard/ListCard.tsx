@@ -15,23 +15,18 @@ export default function ListCard({
         scrollable ? "overflow-scroll" : "overflow-hidden"
       } relative overflow-x-hidden transition-all`}
       style={style}
-      layoutScroll
     >
-      <AnimatePresence mode="wait">
-        {cards.map((e, idx) => {
+      <AnimatePresence mode="popLayout" initial={false}>
+        {cards.map((e) => {
           return e ? (
             <motion.li
-              key={idx}
+              key={e.id}
               // flip visual cuando cambia de mano a mesa
               whileHover={{ scale: 1.05 }}
               layoutId={String(e.id)}
             >
               {!back ? (
-                <Card
-                  key={idx}
-                  {...e}
-                  onCardaction={onCardaction && onCardaction}
-                />
+                <Card {...e} onCardaction={onCardaction && onCardaction} />
               ) : (
                 <div className="h-[294px] w-[194px] border-white border-2 bg-[url('/src/assets/trasera.png')]  bg-cover bg-center bg-no-repeat bg- "></div>
               )}

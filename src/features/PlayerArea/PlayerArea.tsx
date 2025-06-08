@@ -36,9 +36,9 @@ export default function PlayerArea({ useJuego, id }: ManoJugadorProps) {
         <li className="h-[100%] w-[100%] flex items-center justify-center">
           <button
             onClick={onAction}
-            disabled={useJuego.state.turno !== 0}
+            disabled={useJuego.state.turno != 0 || !useJuego.state.puede_pasar}
             className={`flex items-center justify-center border-white/50 border-2 p-2 px-4 rounded-full ${
-              useJuego.state.turno !== 0
+              useJuego.state.turno != 0 || !useJuego.state.puede_pasar
                 ? "cursor-not-allowed opacity-50"
                 : "cursor-pointer"
             } `}

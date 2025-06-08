@@ -3,13 +3,19 @@ import type { Props } from "./Card.types";
 
 export default function Card({ ...props }: Props) {
   function HeaderCard() {
+    const actionToSpanish = {
+      reverse: "Reversa",
+      silence: "Silencio",
+      temptation: "Tentación",
+    };
+
     if ("action" in props) {
-      return <p>{props.action_name}</p>;
+      return <p className="uppercase">{actionToSpanish[props.action_name]}</p>;
     } else {
       return (
         <>
-          <p>{props.feeling}</p>
-          <p>{props.number}</p>
+          <p className="uppercase">{props.feeling}</p>
+          <p className="uppercase">{props.number}</p>
         </>
       );
     }
@@ -58,8 +64,9 @@ export default function Card({ ...props }: Props) {
         }}
       >
         {/* Cabezera de la tarjeta */}
-        <header className="z-10 flex text-2xl font-black text-white items-center justify-around  min-h-[40px] h-[20%] "></header>
-        <HeaderCard />
+        <header className="z-10 flex text-2xl font-black text-white items-center justify-around  min-h-[40px] h-[20%] ">
+          <HeaderCard />
+        </header>
 
         {/* Cuerpo de la tarjeta */}
         <main className="z-10 h-[80%]  relative flex  items-center justify-center">
@@ -80,7 +87,7 @@ export default function Card({ ...props }: Props) {
               color: FEELINGS_COLORS_VACIO[props.feeling],
             }}
           >
-            <p>{props.feeling}</p>
+            <p className="uppercase">{props.feeling}</p>
           </div>
           {"number" in props && <p>{props.number}</p>}
         </footer>
